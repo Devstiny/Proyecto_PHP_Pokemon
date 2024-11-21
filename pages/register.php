@@ -11,7 +11,7 @@
       crossorigin="anonymous"
     />
     <!-- CSS LINK -->
-    <link rel="stylesheet" href="./../css/style.css" />
+    <link rel="stylesheet" href=".././css/style.css" />
     <!-- FONT LINK -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,11 +24,12 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+
       <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
     <!-- Header navbar -->
-    <header class="bg-dark text-white sticky top-0">
+    <header class="bg-dark text-white sticky top-0 z-10">
         <div class="container mx-auto px-4 py-2">
             <div class="flex flex-wrap items-center justify-between">
                 <a
@@ -105,7 +106,7 @@
     <!-- Main container -->
     <main class="container fluid d-flex flex-column mb-5">
       <!-- Section: Design Block -->
-        <section class="text-center text-lg-start bg-gray-100 py-8">
+        <section class="text-center text-lg-start py-8">
             <!-- Jumbotron -->
             <div class="container">
                 <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-8">
@@ -173,7 +174,8 @@
 
                     <!-- Image Section -->
                     <div>
-                        <img src="./../assets/images/co6mrg.webp" alt="Imagen" class="w-full rounded-lg shadow-lg" />
+                        <img src="./../assets/images/pokeball_mew.webp" alt="Imagen" class="mew animaMew capturaMew m-auto" id="mew"/>
+                        <img src=".././assets/images/Pokemon-Pokeball-PNG-Images.webp" class=" pokeball captura" id="pokeball">
                     </div>
                 </div>
             </div>
