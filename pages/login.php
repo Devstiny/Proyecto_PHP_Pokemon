@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="overflow-hidden">
+<html lang="es">
 
 <head>
     <meta charset="utf-8" />
@@ -51,15 +51,20 @@
             if ($resultado) {
                 //configuracion para que cuando se cierre el navegador se cierre la sesion
                 //(Elimina las cookies, por lo tanto elimina el token, que es lo que comprueba el index si existe).
-                session_set_cookie_params([
-                    'lifetime' => 0,
-                    'path' => '/',
-                    'secure' => false,
-                    'httponly' => true,
-                ]);
+//               session_set_cookie_params([
+//                    'lifetime' => 0,
+//                    'path' => '/',
+//                    'secure' => false,
+//                    'httponly' => true,
+//                ]);
                 session_start();
                 $token = hash('sha256', uniqid(mt_rand(), true));
                 $_SESSION['token'] = $token;
+                $inserToken = "UPDATE USUARIOS SET TOKEN = :token WHERE NOMBRE_USUARIO = :nombre";
+                $stmt = $pdo->prepare($inserToken);
+                $stmt->bindParam(':token', $token, PDO::PARAM_STR);
+                $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+                $stmt->execute();
                 echo "hola";
                 header("location: .././index.php");
             } else {
