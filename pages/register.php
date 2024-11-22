@@ -4,7 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>register</title>
-    <link
+      <link rel="icon" type="image/x-icon" href=".././assets/images/Pokemon-Pokeball-PNG-Images.webp">
+
+      <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
@@ -34,6 +36,10 @@
   <!-- Main container -->
   <main class="w-screen  overflow-hidden m-auto">
       <!-- Section: Design Block -->
+      <?php
+        include_once '.././funciones/funciones_db.php';
+        conexion();
+      ?>
       <section class=" min-h-screen flex items-center justify-center">
           <!-- Jumbotron -->
           <div class="flex flex-wrap max-w-[1200px] items-center justify-around gap-5">
@@ -79,6 +85,7 @@
 
                           <!-- Login with social media -->
                           <div class="text-center mt-6">
+                              <p class="text-sm mb-4">¿Ya tienes cuenta? Inicia Sesion <a href="./login.php" class="hover:text-red-500">aquí</a></p>
                               <p class="text-sm mb-4">O inicie sesión con</p>
                               <div class="flex justify-center space-x-4">
                                   <button type="button" class="text-red-500 hover:text-red-600">

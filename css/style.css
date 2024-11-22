@@ -13,12 +13,16 @@
     animation-fill-mode: forwards;
     animation-name: mewCaptura;
     animation-duration: 1.5s;
+    filter: invert(0);
 }
 @keyframes mewCaptura {
     60%{
         top: -250px;
         left: -200px;
         transform: scale(.3);
+    }
+    80%{
+        filter: invert(0.4) blur(2px) drop-shadow(15px 15px 50px #5a5a5a);
     }
     100%{
         top: 0;
