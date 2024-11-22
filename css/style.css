@@ -1,71 +1,75 @@
-.mew{
-    filter: drop-shadow(5px 5px 8px black);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+.mew {
+  filter: drop-shadow(5px 5px 8px black);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-.pokeball{
-    filter: drop-shadow(5px 5px 8px black);
+.pokeball {
+  filter: drop-shadow(5px 5px 8px black);
 }
-.animaMew{
-    animation-delay: 2.8s;
-    animation-fill-mode: forwards;
-    animation-name: mewCaptura;
-    animation-duration: 1.5s;
-    filter: invert(0);
+.animaMew {
+  animation-delay: 2.8s;
+  animation-fill-mode: forwards;
+  animation-name: mewCaptura;
+  animation-duration: 1.5s;
+  filter: invert(0);
 }
 @keyframes mewCaptura {
-    60%{
-        top: -250px;
-        left: -200px;
-        transform: scale(.3);
-    }
-    80%{
-        filter: invert(0.4) blur(2px) drop-shadow(15px 15px 50px #5a5a5a);
-    }
-    100%{
-        top: 0;
-        left: 5px;
-        transform: scale(.1) ;
-        display: none;
-    }
+  60% {
+    top: -250px;
+    left: -200px;
+    transform: scale(0.3);
+  }
+  80% {
+    filter: invert(0.4) blur(2px) drop-shadow(15px 15px 50px #5a5a5a);
+  }
+  100% {
+    top: 0;
+    left: 5px;
+    transform: scale(0.1);
+    display: none;
+  }
 }
 
-.captura{
-    position: relative;
-    scale: .1;
-    top: -10px;
-    left: -10px;
-    animation: pokeCaptura 13s forwards;
+.captura {
+  position: relative;
+  scale: 0.1;
+  top: -10px;
+  left: -10px;
+  animation: pokeCaptura 13s forwards;
 }
 @keyframes pokeCaptura {
-    0%{
-        top: -1000px;
-        left: 1500px;
-    }
-    20%{
-        top: -10px;
-        left: -10px;
-        transform: scale(1);
-    }
-    40%{
-        transform: scale(2);
-    }
-    42.5%,57.5%,72.5%{
-        transform: scale(2) rotate(10deg);
-        filter: drop-shadow(5px 5px 8px  black);
-    }
-    50%,65%,80%{
-        transform: scale(2) rotate(-10deg);
-        filter: drop-shadow(5px 5px 8px  black);
-    }
-    85%{
-        transform: scale(1.8);
-        filter: drop-shadow(15px 15px 20px #fffb00);
-    }
-    100%{
-        transform: scale(6);
-        filter: drop-shadow(80px 80px 150px #fffb00);
-    }
+  0% {
+    top: -1000px;
+    left: 1500px;
+  }
+  20% {
+    top: -10px;
+    left: -10px;
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(2);
+  }
+  42.5%,
+  57.5%,
+  72.5% {
+    transform: scale(2) rotate(10deg);
+    filter: drop-shadow(5px 5px 8px black);
+  }
+  50%,
+  65%,
+  80% {
+    transform: scale(2) rotate(-10deg);
+    filter: drop-shadow(5px 5px 8px black);
+  }
+  85% {
+    transform: scale(1.8);
+    filter: drop-shadow(15px 15px 20px #ef4444);
+  }
+  100% {
+    transform: scale(6);
+    filter: drop-shadow(80px 80px 150px #ef4444);
+  }
 }
