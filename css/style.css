@@ -1,66 +1,67 @@
 .mew{
     filter: drop-shadow(5px 5px 8px black);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
 }
 .pokeball{
     filter: drop-shadow(5px 5px 8px black);
 }
 .animaMew{
-    animation-delay: 3.5s;
+    animation-delay: 2.8s;
     animation-fill-mode: forwards;
     animation-name: mewCaptura;
     animation-duration: 1.5s;
 }
 @keyframes mewCaptura {
     60%{
-        transform: scale(.3) translate(-90%, -90%);
+        top: -250px;
+        left: -200px;
+        transform: scale(.3);
     }
     100%{
-        transform: scale(.1) translate(0, 0);
+        top: 0;
+        left: 5px;
+        transform: scale(.1) ;
         display: none;
     }
 }
 
-
 .captura{
-    position: absolute;
+    position: relative;
     scale: .1;
-    top: -150px;
-    left: 85%;
-    animation: pokeCaptura 13.5s forwards;
+    top: -10px;
+    left: -10px;
+    animation: pokeCaptura 13s forwards;
 }
 @keyframes pokeCaptura {
+    0%{
+        top: -1000px;
+        left: 1500px;
+    }
     20%{
-        top: 0;
-        left: 50%;
-        transform: scale(.5);
+        top: -10px;
+        left: -10px;
+        transform: scale(1);
     }
     40%{
-        top: 0;
-        left: 50%;
         transform: scale(2);
     }
-    45%,60%,75%{
-        top: 0;
-        left: 50%;
+    42.5%,57.5%,72.5%{
         transform: scale(2) rotate(10deg);
         filter: drop-shadow(5px 5px 8px  black);
     }
-    52.5%,67.5%,82.5%{
-        top: 0;
-        left: 50%;
+    50%,65%,80%{
         transform: scale(2) rotate(-10deg);
         filter: drop-shadow(5px 5px 8px  black);
     }
     85%{
-        top: 0;
-        left: 50%;
         transform: scale(1.8);
         filter: drop-shadow(15px 15px 20px #fffb00);
     }
     100%{
-        top: 0;
-        left: 50%;
-        transform: scale(2.5);
-        filter: drop-shadow(100px 100px 400px #fffb00);
+        transform: scale(6);
+        filter: drop-shadow(80px 80px 150px #fffb00);
     }
 }
