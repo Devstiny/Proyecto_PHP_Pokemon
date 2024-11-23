@@ -38,38 +38,7 @@
         <?php
         include_once '.././funciones/funciones_db.php';
         conexion();
-        global $pdo;
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $nombre = $_POST['nombre'];
-            $pass = $_POST['pass'];
-            $consulta = "SELECT * FROM USUARIOS WHERE NOMBRE_USUARIO = :nombre AND PASSWORD = :password";
-            $stmt = $pdo->prepare($consulta);
-            $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
-            $stmt->bindParam(':password', $pass, PDO::PARAM_STR);
-            $stmt->execute();
-            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($resultado) {
-                //configuracion para que cuando se cierre el navegador se cierre la sesion
-                //(Elimina las cookies, por lo tanto elimina el token, que es lo que comprueba el index si existe).
-//               session_set_cookie_params([
-//                    'lifetime' => 0,
-//                    'path' => '/',
-//                    'secure' => false,
-//                    'httponly' => true,
-//                ]);
-                session_start();
-                $token = hash('sha256', uniqid(mt_rand(), true));
-                $_SESSION['token'] = $token;
-                $inserToken = "UPDATE USUARIOS SET TOKEN = :token WHERE NOMBRE_USUARIO = :nombre";
-                $stmt = $pdo->prepare($inserToken);
-                $stmt->bindParam(':token', $token, PDO::PARAM_STR);
-                $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
-                $stmt->execute();
-                header("location: .././index.php");
-            } else {
-                echo "Credenciales incorrectas.";
-            }
-        }
+        inicioSesion();
         ?>
         <section class=" min-h-screen flex items-center justify-center">
             <!-- Jumbotron -->
