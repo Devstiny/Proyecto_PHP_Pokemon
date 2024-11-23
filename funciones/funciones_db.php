@@ -11,4 +11,17 @@ function conexion()
         echo 'Error en la conexión: ' . $e->getMessage();
     }
 }
+
+function nombreUsuario($token) {
+    global $pdo;
+    try {
+        $stmt = $pdo -> prepare('SELECT NOMBRE_USUARIO, ROL FROM USUARIOS WHERE TOKEN LIKE :token');
+        $stmt -> bindParam(':token', $token);
+        $stmt->execute();
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resultado;
+    }catch (PDOException $e) {
+        echo 'Error en la conexion: ' . $e->getMessage();
+    }
+}
 ?>

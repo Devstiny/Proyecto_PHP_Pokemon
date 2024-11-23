@@ -65,7 +65,6 @@
                 $stmt->bindParam(':token', $token, PDO::PARAM_STR);
                 $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
                 $stmt->execute();
-                echo "hola";
                 header("location: .././index.php");
             } else {
                 echo "Credenciales incorrectas.";
