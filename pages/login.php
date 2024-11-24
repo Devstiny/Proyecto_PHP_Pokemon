@@ -38,7 +38,7 @@
         <?php
         include_once '.././funciones/funciones_db.php';
         conexion();
-        inicioSesion();
+        $errorMessage = inicioSesion();
         ?>
         <section class=" min-h-screen flex items-center justify-center">
             <!-- Jumbotron -->
@@ -47,6 +47,18 @@
                 <div class="w-[550px]">
                     <div class="bg-white shadow-lg rounded-lg p-8">
                         <h2 class="text-2xl font-bold mb-6">Iniciar Sesion</h2>
+
+                        <!-- Mensaje de error -->
+                        <?php
+                        if (!empty($errorMessage)) :
+                        ?>
+                            <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
+                                <?php echo $errorMessage; ?>
+                            </div>
+                        <?php
+                        endif;
+                        ?>
+
                         <form action="#" method="post">
                             <!-- Nombre de usuario -->
                             <div class="mb-4">
