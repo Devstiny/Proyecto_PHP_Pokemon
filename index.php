@@ -1,29 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokémon Team Builder</title>
     <link rel="stylesheet" href="./css/colors.css" />
+    <!-- FONTAWESOME -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-100 h-screen flex flex-col justify-between">
-<?php
+    <?php
     include_once './funciones/funciones_db.php';
     conexion();
     global $pdo;
     session_start();
-    $token=$_SESSION['token'];
-    if( isset($token)){
+    $token = $_SESSION['token'];
+    if (isset($token)) {
         $datosUsu = nombreUsuario($token);
         global $rol;
         $rol = $datosUsu['ROL'];
         global $nombre;
         $nombre = $datosUsu['NOMBRE_USUARIO'];
-    }else{
+    } else {
         header("location: ./pages/login.php");
     }
-?>
+    ?>
 
     <!-- Navbar -->
     <header class="bg-primary text-white">
@@ -39,18 +48,39 @@
             </button>
             <!-- Desktop Menu -->
             <nav class="hidden md:flex space-x-6">
-                <a href="#" class="hover:text-gray-200">TeamBuild</a>
-                <a href="#" class="hover:text-gray-200">Pokemons</a>
-                <a href="#" class="hover:text-gray-200">Movimientos</a>
-                <a href="#" class="hover:text-gray-200">Perfil</a>
+
+                <a href="#" class="hover:text-gray-200">TeamBuilder</a>
+                <a href="#" class="hover:text-gray-200">Pokedex</a>
+                <a href="#" class="hover:text-gray-200">Mis Equipos</a>
+                <?php
+                if ($rol === "A") { ?>
+                    <a href='#' class='hover:text-gray-200'>Administración</a>
+                <?php
+                } ?>
+                <div class="relative">
+                    <a href="#" id="profilemenu" class="hover:text-gray-200 border-2 rounded-full px-[6px] py-[2px] text-center"><i class="fa-regular fa-user"></i></a>
+                    <!-- Dropdown menu -->
+                    <div id="profiledropdown" class="hidden absolute bg-primary text-white border rounded shadow-md mt-5 right-0 z-50 w-48 text-center">
+                        <a href="#" class="block px-8 py-2 hover:bg-red-200 hover:text-black transition-all">Mi Cuenta</a>
+                        <a href="#" class="block px-8 py-2 hover:bg-red-200 hover:text-black transition-all">Cerrar Sesión</a>
+                    </div>
+                </div>
+
             </nav>
         </div>
         <!-- Mobile Dropdown -->
         <div id="mobile-menu" class="hidden md:hidden bg-primary text-white text-center">
-            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">TeamBuild</a>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Pokemons</a>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Movimientos</a>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Perfil</a>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">TeamBuilder</a>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Pokedex</a>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Mis Equipos</a>
+            <?php
+            if ($rol === "A") { ?>
+                <a href='#' class='hover:text-gray-200'>Administración</a>
+            <?php
+            } ?>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Mi Cuenta</a>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Cerrar Sesión</a>
+
         </div>
     </header>
 
@@ -75,15 +105,17 @@
         Pokémon Team Builder © 2024. Todos los derechos reservados.
     </footer>
 
-<script>
-    // Mobile menu toggle
-    const menuButton = document.getElementById('menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    menuButton.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-    });
-</script>
+    <script>
+        // Mobile menu toggle
+        const menuButton = document.getElementById('menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
 
+    <script src="./js/script.js"></script>
 
 </body>
+
 </html>
