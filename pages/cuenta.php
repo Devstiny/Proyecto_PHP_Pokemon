@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokémon Team Builder</title>
-    <link rel="stylesheet" href="./css/colors.css" />
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href=".././css/colors.css" />
     <!-- FONTAWESOME -->
     <link
         rel="stylesheet"
@@ -13,13 +14,14 @@
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous"
         referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+   
     <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 
 <body class="bg-gray-100 h-screen flex flex-col justify-between">
     <?php
-    include_once './funciones/funciones_db.php';
+    include_once '.././funciones/funciones_db.php';
     conexion();
     global $pdo;
     session_start();
@@ -64,7 +66,7 @@
                     <a href="#" id="profilemenu" class="hover:text-gray-200 border-2 rounded-full px-[6px] py-[2px] text-center"><i class="fa-regular fa-user"></i></a>
                     <!-- Dropdown menu -->
                     <div id="profiledropdown" class="hidden absolute bg-primary text-white border rounded shadow-md mt-5 right-0 z-50 w-48 text-center">
-                        <a href="./pages/cuenta.php" class="block px-8 py-2 hover:bg-red-200 hover:text-black transition-all">Mi Cuenta</a>
+                        <a href="#" class="block px-8 py-2 hover:bg-red-200 hover:text-black transition-all">Mi Cuenta</a>
                         <a href="./funciones/cerrarSesion.php" class="block px-8 py-2 hover:bg-red-200 hover:text-black transition-all">Cerrar Sesión</a>
                     </div>
                 </div>
@@ -81,7 +83,7 @@
                 <a href='#' class='hover:text-gray-200'>Administración</a>
             <?php
             } ?>
-            <a href="./pages/cuenta.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Mi Cuenta</a>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Mi Cuenta</a>
             <a href="./funciones/cerrarSesion.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Cerrar Sesión</a>
 
         </div>
@@ -89,10 +91,43 @@
 
     <!-- Main Content -->
     <main class="flex flex-col justify-center items-center text-center bg-gray-100 xl:w-screen-xl ">
-        <h1 class="text-5xl font-bold text-primary mb-6">Crea tu Equipo Pokémon</h1>
-        <p class="text-lg text-gray-700 mb-8 max-w-md">
-            Personaliza tus equipos con los mejores Pokémon, movimientos y estrategias para la victoria.
+        <h1 class="text-5xl font-bold text-primary mb-6">Mi Cuenta</h1>
+        <p class="text-lg text-gray-700 mb-8 max-w-md"> Foto de perfil 
+            <img class="w-20 mt-6 mx-auto border-2 border-gray-600 rounded-full" src=".././assets/images/pokeball_mew.webp" alt="foto perfil">
         </p>
+        <p class="text-lg text-gray-700 max-w-md">
+            Nombre de usuario: <?php echo $nombre; ?>
+            <!-- <input type="text" name="usuario" placeholder=""> -->
+        </p>
+        <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="mt-2 text-white bg-[#D33F5A] hover:bg-red-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" type="button">Editar<i class="fa-regular fa-pen-to-square ml-4 "></i></button>
+
+<!-- Dropdown menu -->
+<div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
+      </li>
+    </ul>
+</div>
+        <p class="text-lg text-gray-700 mt-8 max-w-md">
+            Correo electronico: <?php echo $mail; ?>
+            <!-- <input type="text" name="usuario" placeholder=""> -->
+        </p>
+            <button><i class="fa-regular fa-pen-to-square text-2xl text-primary"></i></button>
+        <p class="text-lg text-gray-700 mt-8 max-w-md">
+            Contraseña: ●●●●●●●●●
+            <!-- <input type="text" name="usuario" placeholder=""> -->
+        </p>
+            <button><i class="fa-regular fa-pen-to-square text-2xl text-primary mb-8"></i></button>
         <div class="flex space-x-4">
             <a href="#" class="bg-primary text-white px-6 py-3 rounded-lg shadow-md hover:bg-red-500">
                 Crear Equipo
@@ -117,7 +152,7 @@
         });
     </script>
 
-<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
 </body>
 
