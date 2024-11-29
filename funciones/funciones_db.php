@@ -105,3 +105,35 @@ function registrarUsuario($nombreUsuario, $correo, $password)
 
     return $errorMessage; // Si no hay errores, será una cadena vacía
 }
+
+
+
+function cambiarUsu(){
+    global $pdo;
+    $consulta = "UPDATE USUARIOS SET NOMBRE_USUARIO = :nombre WHERE TOKEN = :token";
+    $stmt = $pdo->prepare($consulta);
+    $stmt->bindParam(':token', $_SESSION['token'], PDO::PARAM_STR);
+    $stmt->bindParam(':nombre', $_POST['usu'], PDO::PARAM_STR);
+    $stmt->execute();
+}
+
+function cambiarMail(){
+    global $pdo;
+    $consulta = "UPDATE USUARIOS SET MAIL = :mail WHERE TOKEN = :token";
+    $stmt = $pdo->prepare($consulta);
+    $stmt->bindParam(':token', $_SESSION['token'], PDO::PARAM_STR);
+    $stmt->bindParam(':mail', $_POST['mail'], PDO::PARAM_STR);
+    $stmt->execute();
+}
+
+
+function cambiarPass(){
+    global $pdo;
+    $pass = $_POST['pass'];
+    $encryptedPassword = password_hash($pass, PASSWORD_DEFAULT);
+    $consulta = "UPDATE USUARIOS SET PASSWORD = :pass WHERE TOKEN = :token";
+    $stmt = $pdo->prepare($consulta);
+    $stmt->bindParam(':token', $_SESSION['token'], PDO::PARAM_STR);
+    $stmt->bindParam(':pass', $encryptedPassword, PDO::PARAM_STR);
+    $stmt->execute();
+}
