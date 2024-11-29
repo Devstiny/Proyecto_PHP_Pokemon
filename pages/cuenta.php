@@ -63,9 +63,8 @@
                 <?php
                 } ?>
                 <div class="relative">
-                    <a href="#" id="profilemenu" class="hover:text-gray-200 border-2 rounded-full px-[6px] py-[2px] text-center"><i class="fa-regular fa-user"></i></a>
-                    <!-- Dropdown menu -->
-                    <div id="profiledropdown" class="hidden absolute bg-primary text-white border rounded shadow-md mt-5 right-0 z-50 w-48 text-center">
+                    <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="hover:text-gray-200 border-2 rounded-full px-[6px] py-[2px] text-center" type="button"><i class="fa-regular fa-user"></i></button>
+                    <div id="dropdown" class="hidden absolute bg-primary text-white border rounded shadow-md mt-5 right-0 z-50 w-48 text-center">
                         <a href="#" class="block px-8 py-2 hover:bg-red-200 hover:text-black transition-all">Mi Cuenta</a>
                         <a href="./funciones/cerrarSesion.php" class="block px-8 py-2 hover:bg-red-200 hover:text-black transition-all">Cerrar Sesión</a>
                     </div>
@@ -99,36 +98,45 @@
             Nombre de usuario: <?php echo $nombre; ?>
             <!-- <input type="text" name="usuario" placeholder=""> -->
         </p>
-        <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="mt-2 text-white bg-[#D33F5A] hover:bg-red-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" type="button">Editar<i class="fa-regular fa-pen-to-square ml-4 "></i></button>
+        <button id="dropdownDefaultButton" data-dropdown-toggle="dropdownUpdate" class="mt-2 text-white bg-[#D33F5A] hover:bg-red-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" type="button">Editar<i class="fa-regular fa-pen-to-square ml-4 "></i></button>
+        <!-- Dropdown menu -->
+        <div id="dropdownUpdate" class="z-10 hidden text-white bg-[#D33F5A] divide-y divide-gray-100 rounded-lg shadow w-44 ">
+            <form action="#" method="post">
+                <label for="usu">Nuevo nombre</label>
+                <input type="text" name="usu" class="w-full border-[#D33F5A] focus:outline-none">
+                <button>Confirmar</button>
+            </form>
+        </div>
 
-<!-- Dropdown menu -->
-<div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-      <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-      </li>
-      <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-      </li>
-      <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-      </li>
-      <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
-      </li>
-    </ul>
-</div>
         <p class="text-lg text-gray-700 mt-8 max-w-md">
             Correo electronico: <?php echo $mail; ?>
             <!-- <input type="text" name="usuario" placeholder=""> -->
         </p>
-            <button><i class="fa-regular fa-pen-to-square text-2xl text-primary"></i></button>
+        <button id="dropdownDefaultButton" data-dropdown-toggle="dropdownUpdate1" class="mt-2 text-white bg-[#D33F5A] hover:bg-red-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" type="button">Editar<i class="fa-regular fa-pen-to-square ml-4 "></i></button>
+        <!-- Dropdown menu -->
+        <div id="dropdownUpdate1" class="z-10 hidden text-white bg-[#D33F5A] divide-y divide-gray-100 rounded-lg shadow w-44 ">
+            <form action="#" method="post">
+                <label for="usu">Nuevo Correo</label>
+                <input type="text" name="usu" class="w-full border-[#D33F5A] focus:outline-none">
+                <button>Confirmar</button>
+            </form>
+        </div>
+
         <p class="text-lg text-gray-700 mt-8 max-w-md">
             Contraseña: ●●●●●●●●●
             <!-- <input type="text" name="usuario" placeholder=""> -->
         </p>
-            <button><i class="fa-regular fa-pen-to-square text-2xl text-primary mb-8"></i></button>
-        <div class="flex space-x-4">
+        <button id="dropdownDefaultButton" data-dropdown-toggle="dropdownUpdate2" class="mt-2 text-white bg-[#D33F5A] hover:bg-red-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" type="button">Editar<i class="fa-regular fa-pen-to-square ml-4 "></i></button>
+        <!-- Dropdown menu -->
+        <div id="dropdownUpdate2" class="z-10 hidden text-white bg-[#D33F5A] divide-y divide-gray-100 rounded-lg shadow w-44">
+            <form action="#" method="post">
+                <label for="usu">Nueva contraseña</label>
+                <input type="text" name="usu" class="w-full border-[#D33F5A] focus:outline-none">
+                <button>Confirmar</button>
+            </form>
+        </div>
+
+        <div class="flex space-x-4  mt-10">
             <a href="#" class="bg-primary text-white px-6 py-3 rounded-lg shadow-md hover:bg-red-500">
                 Crear Equipo
             </a>
