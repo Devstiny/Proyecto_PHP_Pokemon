@@ -37,6 +37,9 @@
     } else {
         header("location: ./pages/login.php");
     }
+    if($rol != 'A')
+        header("location: ./login.php");
+
     ?>
 
     <!-- Navbar -->
