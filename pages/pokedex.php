@@ -14,7 +14,7 @@
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous"
         referrerpolicy="no-referrer" />
-
+   
     <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
@@ -33,7 +33,7 @@
         global $nombre;
         $nombre = $datosUsu['NOMBRE_USUARIO'];
         global $mail;
-        $mail = $datosUsu['MAIL'];
+        $mail= $datosUsu['MAIL'];
     } else {
         header("location: ./pages/login.php");
     }
@@ -41,8 +41,9 @@
 
     <!-- Navbar -->
     <header class="bg-primary text-white">
-        <div class="container mx-auto px-1 py-1 flex justify-between items-center">
-            <img src="./assets/images/LOGOTIPO.png" alt="" class="drop-shadow-lg w-20">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <img src="./assets/images/LOGOTIPO.png" alt="" class="drop-shadow-lg w-20">
+
             <!-- Mobile Menu Button -->
             <button id="menu-button" class="md:hidden text-white focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -89,119 +90,22 @@
 
     <!-- Main Content -->
     <main class="flex flex-col justify-center items-center text-center bg-gray-100 xl:w-screen-xl ">
-        <h1 class="text-5xl font-bold text-primary mb-6">Mi Cuenta</h1>
-        <p class="text-lg text-gray-700 mb-8 max-w-md"> Foto de perfil 
-            <img class="w-20 mt-6 mx-auto border-2 border-gray-600 rounded-full" src=".././assets/images/pokeball_mew.webp" alt="foto perfil">
-        </p>
-        <p class="text-lg text-gray-700 max-w-md">
-            Nombre de usuario: <?php echo $nombre; ?>
-        </p>
-        <div id="accordion-collapse" data-accordion="collapse">
-            <h2 id="accordion-collapse-heading-1" class="mt-2">
-                <button 
-                    type="button" 
-                    class="w-full text-white bg-primary hover:bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 flex items-center justify-center focus:bg-[#D33F5A] focus:hover:bg-red-500 focus:text-white hover:text-white"
-                    data-accordion-target="#accordion-collapse-body-1" 
-                    aria-expanded="false" 
-                    aria-controls="accordion-collapse-body-1">
-                    Editar<i class="fa-regular fa-pen-to-square ml-4"></i>
-                </button>
-            </h2>   
-        <!-- Dropdown menu -->
-            <div id="accordion-collapse-body-1" 
-                class="hidden bg-[#D33F5A] rounded-lg shadow w-full p-4 mt-2"
-                aria-labelledby="accordion-collapse-heading-1">
-                <form action="./../funciones/cambiarUsu.php" method="post">
-                    <label for="usu" class="block text-sm text-white mb-2">Nuevo nombre</label>
-                    <input type="text" name="usu" id="usu"
-                        placeholder="Nuevo nombre"
-                        class="w-full px-3 py-2 text-sm text-black border border-[#D33F5A] rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:border-white">
-                    <button type="submit" 
-                        class="mt-2 w-full bg-white text-[#D33F5A] hover:bg-gray-200 px-4 py-2 rounded-md font-medium">
-                        Confirmar
-                    </button>
-                </form>
-            </div>
-       
+        <h1 class="text-5xl font-bold text-primary mb-6">Pokedex</h1>
+        <table class="max-w-7xl border-collapse border border-[#D33F5A] mb-4">
+            <tr class="border border-[#D33F5A]">
+                <th class="min-w-28 border border-[#D33F5A]">Nº Pokedex</th>
+                <th class="min-w-28 border border-[#D33F5A]">Nombre</th>
+                <th class="min-w-28 border border-[#D33F5A]">Tipo 1</th>
+                <th class="min-w-28 border border-[#D33F5A]">Tipo 2</th>
+                <th class="min-w-28 border border-[#D33F5A] ">Foto</th>
+            </tr>
+        <?php
+            global $pdo;
+            $datos = mostrarPokes();
+            converTablaPoke($datos);
+        ?>
+        </table>
 
-        <p class="text-lg text-gray-700 mt-8 max-w-md">
-            Correo electronico: <?php echo $mail; ?>
-            <!-- <input type="text" name="usuario" placeholder=""> -->
-        </p>
-
-
-            <h2 id="accordion-collapse-heading-2" class="mt-2">
-                <button 
-                    type="button" 
-                    class="w-full text-white bg-primary hover:bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 flex items-center justify-center focus:bg-[#D33F5A] focus:hover:bg-red-500 focus:text-white"
-                    data-accordion-target="#accordion-collapse-body-2" 
-                    aria-expanded="false" 
-                    aria-controls="accordion-collapse-body-2">
-                    Editar<i class="fa-regular fa-pen-to-square ml-4"></i>
-                </button>
-            </h2>   
-        <!-- Dropdown menu -->
-            <div id="accordion-collapse-body-2" 
-                class="hidden bg-[#D33F5A] rounded-lg shadow w-full p-4 mt-2"
-                aria-labelledby="accordion-collapse-heading-2">
-                <form action="./../funciones/cambiarMail.php" method="post">
-                <label for="mail" class="block text-sm text-white mb-2">Nuevo mail</label>
-                <input 
-                    type="text" 
-                    name="mail" 
-                    id="mail"
-                    placeholder="Nuevo mail"
-                    class="w-full px-3 py-2 text-sm text-black border border-[#D33F5A] rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:border-white">
-                <button type="submit" 
-                    class="mt-2 w-full bg-white text-[#D33F5A] hover:bg-gray-200 px-4 py-2 rounded-md font-medium">
-                    Confirmar
-                </button>
-                </form>
-            </div>
-
-        <p class="text-lg text-gray-700 mt-8 max-w-md">
-            Contraseña: ●●●●●●●●●
-            <!-- <input type="text" name="usuario" placeholder=""> -->
-        </p>
-        
-            <h2 id="accordion-collapse-heading-3" class="mt-2">
-                <button 
-                    type="button" 
-                    class="w-full text-white bg-primary hover:bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 flex items-center justify-center focus:bg-[#D33F5A] focus:hover:bg-red-500 focus:text-white"
-                    data-accordion-target="#accordion-collapse-body-3" 
-                    aria-expanded="false" 
-                    aria-controls="accordion-collapse-body-3">
-                    Editar<i class="fa-regular fa-pen-to-square ml-4"></i>
-                </button>
-            </h2>   
-        <!-- Dropdown menu -->
-            <div id="accordion-collapse-body-3" 
-                class="hidden bg-[#D33F5A] rounded-lg shadow w-full p-4 mt-2"
-                aria-labelledby="accordion-collapse-heading-3">
-                <form action="./../funciones/cambiarPass.php" method="post">
-                <label for="pass" class="block text-sm text-white mb-2">Nueva contraseña</label>
-                <input 
-                    type="text" 
-                    name="pass" 
-                    id="pass"
-                    placeholder="Nueva contraseña"
-                    class="w-full px-3 py-2 text-sm text-black border border-[#D33F5A] rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:border-white">
-                <button type="submit" 
-                    class="mt-2 w-full bg-white text-[#D33F5A] hover:bg-gray-200 px-4 py-2 rounded-md font-medium">
-                    Confirmar
-                </button>
-                </form>
-            </div>
-        </div>
-
-        <div class="flex space-x-4  mt-10">
-            <a href="#" class="bg-primary text-white px-6 py-3 rounded-lg shadow-md hover:bg-red-500">
-                Crear Equipo
-            </a>
-            <a href="#" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg shadow-md hover:bg-gray-400">
-                Ver Equipos Guardados
-            </a>
-        </div>
     </main>
 
     <!-- Footer -->
