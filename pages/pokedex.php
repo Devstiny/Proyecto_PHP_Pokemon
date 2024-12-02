@@ -90,7 +90,7 @@
     <!-- Main Content -->
     <main class="flex flex-col justify-center items-center text-center bg-gray-100 xl:w-screen-xl ">
         <h1 class="text-5xl font-bold text-primary mb-6">Mi Cuenta</h1>
-        <p class="text-lg text-gray-700 mb-8 max-w-md"> Foto de perfil
+        <p class="text-lg text-gray-700 mb-8 max-w-md"> Foto de perfil 
             <img class="w-20 mt-6 mx-auto border-2 border-gray-600 rounded-full" src=".././assets/images/pokeball_mew.webp" alt="foto perfil">
         </p>
         <p class="text-lg text-gray-700 max-w-md">
@@ -98,17 +98,17 @@
         </p>
         <div id="accordion-collapse" data-accordion="collapse">
             <h2 id="accordion-collapse-heading-1" class="mt-2">
-                <button
-                    type="button"
+                <button 
+                    type="button" 
                     class="w-full text-white bg-primary hover:bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 flex items-center justify-center focus:bg-[#D33F5A] focus:hover:bg-red-500 focus:text-white hover:text-white"
-                    data-accordion-target="#accordion-collapse-body-1"
-                    aria-expanded="false"
+                    data-accordion-target="#accordion-collapse-body-1" 
+                    aria-expanded="false" 
                     aria-controls="accordion-collapse-body-1">
                     Editar<i class="fa-regular fa-pen-to-square ml-4"></i>
                 </button>
-            </h2>
-            <!-- Dropdown menu -->
-            <div id="accordion-collapse-body-1"
+            </h2>   
+        <!-- Dropdown menu -->
+            <div id="accordion-collapse-body-1" 
                 class="hidden bg-[#D33F5A] rounded-lg shadow w-full p-4 mt-2"
                 aria-labelledby="accordion-collapse-heading-1">
                 <form action="./../funciones/cambiarUsu.php" method="post">
@@ -116,80 +116,80 @@
                     <input type="text" name="usu" id="usu"
                         placeholder="Nuevo nombre"
                         class="w-full px-3 py-2 text-sm text-black border border-[#D33F5A] rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:border-white">
-                    <button type="submit"
+                    <button type="submit" 
                         class="mt-2 w-full bg-white text-[#D33F5A] hover:bg-gray-200 px-4 py-2 rounded-md font-medium">
                         Confirmar
                     </button>
                 </form>
             </div>
+       
 
-
-            <p class="text-lg text-gray-700 mt-8 max-w-md">
-                Correo electronico: <?php echo $mail; ?>
-                <!-- <input type="text" name="usuario" placeholder=""> -->
-            </p>
+        <p class="text-lg text-gray-700 mt-8 max-w-md">
+            Correo electronico: <?php echo $mail; ?>
+            <!-- <input type="text" name="usuario" placeholder=""> -->
+        </p>
 
 
             <h2 id="accordion-collapse-heading-2" class="mt-2">
-                <button
-                    type="button"
+                <button 
+                    type="button" 
                     class="w-full text-white bg-primary hover:bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 flex items-center justify-center focus:bg-[#D33F5A] focus:hover:bg-red-500 focus:text-white"
-                    data-accordion-target="#accordion-collapse-body-2"
-                    aria-expanded="false"
+                    data-accordion-target="#accordion-collapse-body-2" 
+                    aria-expanded="false" 
                     aria-controls="accordion-collapse-body-2">
                     Editar<i class="fa-regular fa-pen-to-square ml-4"></i>
                 </button>
-            </h2>
-            <!-- Dropdown menu -->
-            <div id="accordion-collapse-body-2"
+            </h2>   
+        <!-- Dropdown menu -->
+            <div id="accordion-collapse-body-2" 
                 class="hidden bg-[#D33F5A] rounded-lg shadow w-full p-4 mt-2"
                 aria-labelledby="accordion-collapse-heading-2">
                 <form action="./../funciones/cambiarMail.php" method="post">
-                    <label for="mail" class="block text-sm text-white mb-2">Nuevo mail</label>
-                    <input
-                        type="text"
-                        name="mail"
-                        id="mail"
-                        placeholder="Nuevo mail"
-                        class="w-full px-3 py-2 text-sm text-black border border-[#D33F5A] rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:border-white">
-                    <button type="submit"
-                        class="mt-2 w-full bg-white text-[#D33F5A] hover:bg-gray-200 px-4 py-2 rounded-md font-medium">
-                        Confirmar
-                    </button>
+                <label for="mail" class="block text-sm text-white mb-2">Nuevo mail</label>
+                <input 
+                    type="text" 
+                    name="mail" 
+                    id="mail"
+                    placeholder="Nuevo mail"
+                    class="w-full px-3 py-2 text-sm text-black border border-[#D33F5A] rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:border-white">
+                <button type="submit" 
+                    class="mt-2 w-full bg-white text-[#D33F5A] hover:bg-gray-200 px-4 py-2 rounded-md font-medium">
+                    Confirmar
+                </button>
                 </form>
             </div>
 
-            <p class="text-lg text-gray-700 mt-8 max-w-md">
-                Contraseña: ●●●●●●●●●
-                <!-- <input type="text" name="usuario" placeholder=""> -->
-            </p>
-
+        <p class="text-lg text-gray-700 mt-8 max-w-md">
+            Contraseña: ●●●●●●●●●
+            <!-- <input type="text" name="usuario" placeholder=""> -->
+        </p>
+        
             <h2 id="accordion-collapse-heading-3" class="mt-2">
-                <button
-                    type="button"
+                <button 
+                    type="button" 
                     class="w-full text-white bg-primary hover:bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 flex items-center justify-center focus:bg-[#D33F5A] focus:hover:bg-red-500 focus:text-white"
-                    data-accordion-target="#accordion-collapse-body-3"
-                    aria-expanded="false"
+                    data-accordion-target="#accordion-collapse-body-3" 
+                    aria-expanded="false" 
                     aria-controls="accordion-collapse-body-3">
                     Editar<i class="fa-regular fa-pen-to-square ml-4"></i>
                 </button>
-            </h2>
-            <!-- Dropdown menu -->
-            <div id="accordion-collapse-body-3"
+            </h2>   
+        <!-- Dropdown menu -->
+            <div id="accordion-collapse-body-3" 
                 class="hidden bg-[#D33F5A] rounded-lg shadow w-full p-4 mt-2"
                 aria-labelledby="accordion-collapse-heading-3">
                 <form action="./../funciones/cambiarPass.php" method="post">
-                    <label for="pass" class="block text-sm text-white mb-2">Nueva contraseña</label>
-                    <input
-                        type="text"
-                        name="pass"
-                        id="pass"
-                        placeholder="Nueva contraseña"
-                        class="w-full px-3 py-2 text-sm text-black border border-[#D33F5A] rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:border-white">
-                    <button type="submit"
-                        class="mt-2 w-full bg-white text-[#D33F5A] hover:bg-gray-200 px-4 py-2 rounded-md font-medium">
-                        Confirmar
-                    </button>
+                <label for="pass" class="block text-sm text-white mb-2">Nueva contraseña</label>
+                <input 
+                    type="text" 
+                    name="pass" 
+                    id="pass"
+                    placeholder="Nueva contraseña"
+                    class="w-full px-3 py-2 text-sm text-black border border-[#D33F5A] rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:border-white">
+                <button type="submit" 
+                    class="mt-2 w-full bg-white text-[#D33F5A] hover:bg-gray-200 px-4 py-2 rounded-md font-medium">
+                    Confirmar
+                </button>
                 </form>
             </div>
         </div>

@@ -154,3 +154,53 @@ function getMovimientos()
     $stmt = $pdo->query("SELECT ID, NOMBRE, TIPO FROM movimientos");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+
+function mostrarMoves(){
+    global $pdo;
+    $consulta = "SELECT * FROM `movimientos`;";
+    $stmt = $pdo->prepare($consulta);
+    $stmt->execute();
+    $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $resultado;
+} 
+
+function converTablaMoves($datos){
+    foreach($datos as $key){
+        echo "<tr>";
+        foreach($key as $k => $valor){
+            if($k != "ID"){
+                if($k == 'DESCRIPCION')
+                    echo "<td class='text-start p-2 border border-[#D33F5A]'>$valor</td>";
+                else
+                    echo "<td class='border border-[#D33F5A]'>$valor</td>";
+            }
+        }
+        echo "</tr>";
+    }
+}
+
+function mostrarPokes(){
+    global $pdo;
+    $consulta = "SELECT * FROM `pokedex`;";
+    $stmt = $pdo->prepare($consulta);
+    $stmt->execute();
+    $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $resultado;
+} 
+
+function converTablaPoke($datos){
+    foreach($datos as $key){
+        echo "<tr>";
+        foreach($key as $k => $valor){
+            if($k != "FOTO"){
+                ($valor == "")? $valor = "-": $valor;
+                echo "<td class='border border-[#D33F5A]'>$valor</td>";
+            }else{
+                echo "<td class='border border-[#D33F5A]'><img class='max-w-8 mx-auto hover:max-w-28 hover:transition-all' src='.././assets$valor'></td>";
+
+            }
+        }
+        echo "</tr>";
+    }
+}
