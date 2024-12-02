@@ -31,7 +31,7 @@
         global $nombre;
         $nombre = $datosUsu['NOMBRE_USUARIO'];
         global $mail;
-        $mail= $datosUsu['MAIL'];
+        $mail = $datosUsu['MAIL'];
     } else {
         header("location: ./pages/login.php");
     }
@@ -39,10 +39,8 @@
 
     <!-- Navbar -->
     <header class="bg-primary text-white">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="text-lg font-bold">
-                Pokémon Team Builder
-            </div>
+        <div class="container mx-auto px-1 py-1 flex justify-between items-center">
+            <img src="./assets/images/LOGOTIPO.png" alt="" class="drop-shadow-lg w-20">
             <!-- Mobile Menu Button -->
             <button id="menu-button" class="md:hidden text-white focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -117,7 +115,7 @@
         });
     </script>
 
-<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
 </body>
 
