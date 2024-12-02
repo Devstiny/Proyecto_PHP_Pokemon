@@ -108,7 +108,8 @@ function registrarUsuario($nombreUsuario, $correo, $password)
 
 
 
-function cambiarUsu(){
+function cambiarUsu()
+{
     global $pdo;
     $consulta = "UPDATE USUARIOS SET NOMBRE_USUARIO = :nombre WHERE TOKEN = :token";
     $stmt = $pdo->prepare($consulta);
@@ -117,7 +118,8 @@ function cambiarUsu(){
     $stmt->execute();
 }
 
-function cambiarMail(){
+function cambiarMail()
+{
     global $pdo;
     $consulta = "UPDATE USUARIOS SET MAIL = :mail WHERE TOKEN = :token";
     $stmt = $pdo->prepare($consulta);
@@ -127,7 +129,8 @@ function cambiarMail(){
 }
 
 
-function cambiarPass(){
+function cambiarPass()
+{
     global $pdo;
     $pass = $_POST['pass'];
     $encryptedPassword = password_hash($pass, PASSWORD_DEFAULT);
@@ -136,4 +139,18 @@ function cambiarPass(){
     $stmt->bindParam(':token', $_SESSION['token'], PDO::PARAM_STR);
     $stmt->bindParam(':pass', $encryptedPassword, PDO::PARAM_STR);
     $stmt->execute();
+}
+
+function getPokedex()
+{
+    global $pdo;
+    $stmt = $pdo->query("SELECT ID, NOMBRE, TIPO1, TIPO2 FROM pokedex");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getMovimientos()
+{
+    global $pdo;
+    $stmt = $pdo->query("SELECT ID, NOMBRE, TIPO FROM movimientos");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }

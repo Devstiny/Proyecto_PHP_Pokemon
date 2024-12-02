@@ -89,125 +89,95 @@
 
     <!-- Main Content -->
     <main class="flex flex-col justify-center items-center text-center bg-gray-100 xl:w-screen-xl ">
-        <h1 class="text-5xl font-bold text-primary mb-6">Mi Cuenta</h1>
-        <p class="text-lg text-gray-700 mb-8 max-w-md"> Foto de perfil
-            <img class="w-20 mt-6 mx-auto border-2 border-gray-600 rounded-full" src=".././assets/images/pokeball_mew.webp" alt="foto perfil">
-        </p>
-        <p class="text-lg text-gray-700 max-w-md">
-            Nombre de usuario: <?php echo $nombre; ?>
-        </p>
-        <div id="accordion-collapse" data-accordion="collapse">
-            <h2 id="accordion-collapse-heading-1" class="mt-2">
-                <button
-                    type="button"
-                    class="w-full text-white bg-primary hover:bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 flex items-center justify-center focus:bg-[#D33F5A] focus:hover:bg-red-500 focus:text-white hover:text-white"
-                    data-accordion-target="#accordion-collapse-body-1"
-                    aria-expanded="false"
-                    aria-controls="accordion-collapse-body-1">
-                    Editar<i class="fa-regular fa-pen-to-square ml-4"></i>
-                </button>
-            </h2>
-            <!-- Dropdown menu -->
-            <div id="accordion-collapse-body-1"
-                class="hidden bg-[#D33F5A] rounded-lg shadow w-full p-4 mt-2"
-                aria-labelledby="accordion-collapse-heading-1">
-                <form action="./../funciones/cambiarUsu.php" method="post">
-                    <label for="usu" class="block text-sm text-white mb-2">Nuevo nombre</label>
-                    <input type="text" name="usu" id="usu"
-                        placeholder="Nuevo nombre"
-                        class="w-full px-3 py-2 text-sm text-black border border-[#D33F5A] rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:border-white">
-                    <button type="submit"
-                        class="mt-2 w-full bg-white text-[#D33F5A] hover:bg-gray-200 px-4 py-2 rounded-md font-medium">
-                        Confirmar
-                    </button>
-                </form>
+        <h1 class="text-5xl font-bold text-primary mb-6 py-4">TeamBuilder</h1>
+
+        <form id="team-builder-form" method="POST" action="../funciones/guardarEquipo.php" class="w-full max-w-4xl bg-white shadow-lg rounded-lg p-6">
+            <div id="team-slots" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Repetir el siguiente bloque para cada slot de Pokémon -->
+                <?php for ($i = 1; $i <= 6; $i++) { ?>
+                    <div class="slot border rounded-lg p-4 bg-gray-50">
+                        <h2 class="text-lg font-bold text-gray-700">Pokémon <?php echo $i; ?></h2>
+                        <label class="block mt-2">
+                            <span class="text-gray-600">Selecciona un Pokémon:</span>
+                            <div class="pokemon-image mt-2">
+                            </div>
+                            <select name="pokemon[<?php echo $i; ?>]" class="w-full mt-1 px-2 py-1 border rounded">
+                                <option value="">Elige un Pokémon</option>
+                                <?php
+                                $pokemons = getPokedex(); // Función para obtener Pokémon desde la base de datos
+                                foreach ($pokemons as $pokemon) {
+                                    echo "<option value='{$pokemon['ID']}'>{$pokemon['NOMBRE']} ({$pokemon['TIPO1']}";
+                                    echo $pokemon['TIPO2'] ? "/{$pokemon['TIPO2']}" : "";
+                                    echo ")</option>";
+                                }
+                                ?>
+                            </select>
+                        </label>
+                        <label class="block mt-2">
+                            <span class="text-gray-600">Movimientos:</span>
+                            <?php for ($j = 1; $j <= 4; $j++) { ?>
+                                <select name="movimientos[<?php echo $i; ?>][<?php echo $j; ?>]" class="w-full mt-1 px-2 py-1 border rounded">
+                                    <option value="">Selecciona un movimiento</option>
+                                    <?php
+                                    $movimientos = getMovimientos(); // Función para obtener movimientos
+                                    foreach ($movimientos as $movimiento) {
+                                        echo "<option value='{$movimiento['ID']}'>{$movimiento['NOMBRE']} ({$movimiento['TIPO']})</option>";
+                                    }
+                                    ?>
+                                </select>
+                            <?php } ?>
+                        </label>
+                    </div>
+                <?php } ?>
             </div>
+            <button type="submit" class="bg-primary text-white px-6 py-3 mt-4 rounded-lg shadow-md hover:bg-red-500">Guardar Equipo</button>
+        </form>
 
-
-            <p class="text-lg text-gray-700 mt-8 max-w-md">
-                Correo electronico: <?php echo $mail; ?>
-                <!-- <input type="text" name="usuario" placeholder=""> -->
-            </p>
-
-
-            <h2 id="accordion-collapse-heading-2" class="mt-2">
-                <button
-                    type="button"
-                    class="w-full text-white bg-primary hover:bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 flex items-center justify-center focus:bg-[#D33F5A] focus:hover:bg-red-500 focus:text-white"
-                    data-accordion-target="#accordion-collapse-body-2"
-                    aria-expanded="false"
-                    aria-controls="accordion-collapse-body-2">
-                    Editar<i class="fa-regular fa-pen-to-square ml-4"></i>
-                </button>
-            </h2>
-            <!-- Dropdown menu -->
-            <div id="accordion-collapse-body-2"
-                class="hidden bg-[#D33F5A] rounded-lg shadow w-full p-4 mt-2"
-                aria-labelledby="accordion-collapse-heading-2">
-                <form action="./../funciones/cambiarMail.php" method="post">
-                    <label for="mail" class="block text-sm text-white mb-2">Nuevo mail</label>
-                    <input
-                        type="text"
-                        name="mail"
-                        id="mail"
-                        placeholder="Nuevo mail"
-                        class="w-full px-3 py-2 text-sm text-black border border-[#D33F5A] rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:border-white">
-                    <button type="submit"
-                        class="mt-2 w-full bg-white text-[#D33F5A] hover:bg-gray-200 px-4 py-2 rounded-md font-medium">
-                        Confirmar
-                    </button>
-                </form>
-            </div>
-
-            <p class="text-lg text-gray-700 mt-8 max-w-md">
-                Contraseña: ●●●●●●●●●
-                <!-- <input type="text" name="usuario" placeholder=""> -->
-            </p>
-
-            <h2 id="accordion-collapse-heading-3" class="mt-2">
-                <button
-                    type="button"
-                    class="w-full text-white bg-primary hover:bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 flex items-center justify-center focus:bg-[#D33F5A] focus:hover:bg-red-500 focus:text-white"
-                    data-accordion-target="#accordion-collapse-body-3"
-                    aria-expanded="false"
-                    aria-controls="accordion-collapse-body-3">
-                    Editar<i class="fa-regular fa-pen-to-square ml-4"></i>
-                </button>
-            </h2>
-            <!-- Dropdown menu -->
-            <div id="accordion-collapse-body-3"
-                class="hidden bg-[#D33F5A] rounded-lg shadow w-full p-4 mt-2"
-                aria-labelledby="accordion-collapse-heading-3">
-                <form action="./../funciones/cambiarPass.php" method="post">
-                    <label for="pass" class="block text-sm text-white mb-2">Nueva contraseña</label>
-                    <input
-                        type="text"
-                        name="pass"
-                        id="pass"
-                        placeholder="Nueva contraseña"
-                        class="w-full px-3 py-2 text-sm text-black border border-[#D33F5A] rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:border-white">
-                    <button type="submit"
-                        class="mt-2 w-full bg-white text-[#D33F5A] hover:bg-gray-200 px-4 py-2 rounded-md font-medium">
-                        Confirmar
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        <div class="flex space-x-4  mt-10">
-            <a href="#" class="bg-primary text-white px-6 py-3 rounded-lg shadow-md hover:bg-red-500">
-                Crear Equipo
-            </a>
-            <a href="#" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg shadow-md hover:bg-gray-400">
-                Ver Equipos Guardados
-            </a>
-        </div>
     </main>
 
     <!-- Footer -->
     <footer class="bg-primary text-white py-4 text-center">
         Pokémon Team Builder © 2024. Todos los derechos reservados.
     </footer>
+
+    <script>
+        // Mostrar imagen del Pokémon seleccionado
+        document.querySelectorAll('select[name^="pokemon"]').forEach(select => {
+            select.addEventListener('change', function() {
+                const slot = this.closest('.slot');
+                const imageContainer = slot.querySelector('.pokemon-image');
+                const pokemonName = this.options[this.selectedIndex]?.text.split(' (')[0]?.toLowerCase();
+
+                if (pokemonName) {
+                    const imagePath = `./assets/images/${pokemonName}.png`; // Ruta generada dinámicamente
+                    imageContainer.innerHTML = `<img src="${imagePath}" alt="${pokemonName}" class="w-20 h-20 mx-auto">`;
+                } else {
+                    imageContainer.innerHTML = ''; // Limpiar la imagen si no se selecciona un Pokémon
+                }
+            });
+        });
+
+        // Validar movimientos duplicados
+        document.querySelectorAll('select[name^="movimientos"]').forEach(select => {
+            select.addEventListener('change', function() {
+                const slot = this.closest('.slot');
+                const allMoves = Array.from(slot.querySelectorAll('select[name^="movimientos"]'));
+                const selectedValues = allMoves.map(moveSelect => moveSelect.value);
+
+                allMoves.forEach(moveSelect => {
+                    const options = moveSelect.querySelectorAll('option');
+                    options.forEach(option => {
+                        if (option.value && selectedValues.filter(val => val === option.value).length > 1) {
+                            option.disabled = true; // Deshabilitar valores duplicados
+                        } else {
+                            option.disabled = false; // Habilitar si no hay duplicados
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
 
     <script>
         // Mobile menu toggle
