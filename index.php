@@ -52,12 +52,13 @@
             <!-- Desktop Menu -->
             <nav class="hidden md:flex space-x-6">
 
-                <a href="#" class="hover:text-gray-200">TeamBuilder</a>
-                <a href="#" class="hover:text-gray-200">Pokedex</a>
-                <a href="#" class="hover:text-gray-200">Mis Equipos</a>
+                <a href="./pages/teamBuilder.php" class="hover:text-gray-200">TeamBuilder</a>
+                <a href="./pages/pokedex.php" class="hover:text-gray-200">Pokedex</a>
+                <a href="./pages/movimientos.php" class="hover:text-gray-200">Movimientos</a>
+                <a href="./pages/equipos.php" class="hover:text-gray-200">Mis Equipos</a>
                 <?php
                 if ($rol === "A") { ?>
-                    <a href='#' class='hover:text-gray-200'>Administración</a>
+                    <a href='./pages/admin.php' class='hover:text-gray-200'>Administración</a>
                 <?php
                 } ?>
                 <div class="relative">
