@@ -20,6 +20,13 @@
 </head>
 
 <body class="bg-gray-100 h-screen flex flex-col justify-between">
+
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+
     <?php
     include_once '.././funciones/funciones_db.php';
     conexion();
@@ -37,12 +44,71 @@
     } else {
         header("location: ./pages/login.php");
     }
+
+
+    // Obtener Pokémon y movimientos desde la base de datos
+    $pokemons = getPokedex();
+    $movimientos = getMovimientos();
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Procesar datos del formulario
+        $nombreEquipo = $_POST['nombre_equipo'];
+        $pokemonSeleccionados = $_POST['pokemon'];  // Aquí asignamos $_POST['pokemon'] a la variable
+
+        // Verificar que se seleccionaron los 6 Pokémon
+        if (count(array_filter($pokemonSeleccionados)) !== 6) {
+            die("Debe seleccionar 6 Pokémon.");
+        }
+
+        // Verificar que cada Pokémon tiene 4 movimientos
+        foreach ($_POST['movimientos'] as $movimientos) {
+            if (count(array_filter($movimientos)) !== 4) {
+                die("Cada Pokémon debe tener 4 movimientos seleccionados.");
+            }
+        }
+
+        // Verificar si el equipo ya existe para el usuario
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM equipos WHERE NOMBRE_USUARIO = :nombreUsuario AND NOMBRE_EQUIPO = :nombreEquipo");
+        $stmt->execute([':nombreUsuario' => $nombre, ':nombreEquipo' => $nombreEquipo]);
+        $count = $stmt->fetchColumn();
+
+        if ($count > 0) {
+            echo "<script>alert('Ya tienes un equipo con este nombre. Por favor elige otro nombre.');</script>";
+        } else {
+            // El equipo no existe, por lo que ahora insertamos los Pokémon y sus movimientos
+            foreach ($pokemonSeleccionados as $index => $idPokemon) {
+                if ($idPokemon) {
+                    // Asegúrate de que los movimientos sean accesibles correctamente
+                    $mov1 = $_POST['movimientos'][$index][1] ?? null;  // Movimiento 1
+                    $mov2 = $_POST['movimientos'][$index][2] ?? null;  // Movimiento 2
+                    $mov3 = $_POST['movimientos'][$index][3] ?? null;  // Movimiento 3
+                    $mov4 = $_POST['movimientos'][$index][4] ?? null;  // Movimiento 4
+
+                    // Insertar en la base de datos
+                    $stmt = $pdo->prepare("INSERT INTO equipos (NOMBRE_USUARIO, NOMBRE_EQUIPO, ID_POKEMON, ID_MOVIMIENTO1, ID_MOVIMIENTO2, ID_MOVIMIENTO3, ID_MOVIMIENTO4)
+                VALUES (:nombreUsuario, :nombreEquipo, :idPokemon, :mov1, :mov2, :mov3, :mov4)");
+                    $stmt->execute([
+                        ':nombreUsuario' => $nombre,
+                        ':nombreEquipo' => $nombreEquipo,
+                        ':idPokemon' => $idPokemon,
+                        ':mov1' => $mov1,
+                        ':mov2' => $mov2,
+                        ':mov3' => $mov3,
+                        ':mov4' => $mov4,
+                    ]);
+                }
+            }
+            echo "<script>alert('¡Equipo guardado correctamente!');</script>";
+        }
+    }
+
     ?>
+
 
     <!-- Navbar -->
     <header class="bg-primary text-white">
         <div class="container mx-auto px-1 py-1 flex justify-between items-center">
-            <img src="./assets/images/LOGOTIPO.png" alt="" class="drop-shadow-lg w-20">
+            <img src="./../assets/images/LOGOTIPO.png" alt="" class="drop-shadow-lg w-20">
             <!-- Mobile Menu Button -->
             <button id="menu-button" class="md:hidden text-white focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -91,26 +157,27 @@
     <main class="flex flex-col justify-center items-center text-center bg-gray-100 xl:w-screen-xl ">
         <h1 class="text-5xl font-bold text-primary mb-6 py-4">TeamBuilder</h1>
 
-        <form id="team-builder-form" method="POST" action="../funciones/guardarEquipo.php" class="w-full max-w-4xl bg-white shadow-lg rounded-lg p-6">
+        <form id="team-builder-form" method="POST" class="w-full max-w-4xl bg-white shadow-lg rounded-lg p-6">
+            <label class="block mb-4">
+                <span class="text-gray-600">Nombre del equipo:</span>
+                <input type="text" name="nombre_equipo" required class="w-full mt-1 px-2 py-1 border rounded" />
+            </label>
             <div id="team-slots" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Repetir el siguiente bloque para cada slot de Pokémon -->
                 <?php for ($i = 1; $i <= 6; $i++) { ?>
                     <div class="slot border rounded-lg p-4 bg-gray-50">
                         <h2 class="text-lg font-bold text-gray-700">Pokémon <?php echo $i; ?></h2>
                         <label class="block mt-2">
                             <span class="text-gray-600">Selecciona un Pokémon:</span>
-                            <div class="pokemon-image mt-2">
+                            <div class="pokemon-image">
+                                <img src="" alt="Selecciona un Pokémon" class="w-14 h-10 mx-auto hidden" id="pokemon-img-<?php echo $i; ?>">
                             </div>
-                            <select name="pokemon[<?php echo $i; ?>]" class="w-full mt-1 px-2 py-1 border rounded">
+                            <select name="pokemon[<?php echo $i; ?>]" class="pokemon-select w-full mt-1 px-2 py-1 border rounded">
                                 <option value="">Elige un Pokémon</option>
-                                <?php
-                                $pokemons = getPokedex(); // Función para obtener Pokémon desde la base de datos
-                                foreach ($pokemons as $pokemon) {
-                                    echo "<option value='{$pokemon['ID']}'>{$pokemon['NOMBRE']} ({$pokemon['TIPO1']}";
-                                    echo $pokemon['TIPO2'] ? "/{$pokemon['TIPO2']}" : "";
-                                    echo ")</option>";
-                                }
-                                ?>
+                                <?php foreach ($pokemons as $pokemon) { ?>
+                                    <option value="<?php echo $pokemon['ID']; ?>" data-foto="./../assets<?php echo $pokemon['FOTO']; ?>">
+                                        <?php echo $pokemon['NOMBRE']; ?> (<?php echo $pokemon['TIPO1']; ?><?php echo $pokemon['TIPO2'] ? "/{$pokemon['TIPO2']}" : ""; ?>)
+                                    </option>
+                                <?php } ?>
                             </select>
                         </label>
                         <label class="block mt-2">
@@ -118,12 +185,9 @@
                             <?php for ($j = 1; $j <= 4; $j++) { ?>
                                 <select name="movimientos[<?php echo $i; ?>][<?php echo $j; ?>]" class="w-full mt-1 px-2 py-1 border rounded">
                                     <option value="">Selecciona un movimiento</option>
-                                    <?php
-                                    $movimientos = getMovimientos(); // Función para obtener movimientos
-                                    foreach ($movimientos as $movimiento) {
-                                        echo "<option value='{$movimiento['ID']}'>{$movimiento['NOMBRE']} ({$movimiento['TIPO']})</option>";
-                                    }
-                                    ?>
+                                    <?php foreach ($movimientos as $movimiento) { ?>
+                                        <option value="<?php echo $movimiento['ID']; ?>"><?php echo $movimiento['NOMBRE']; ?> (<?php echo $movimiento['TIPO']; ?>)</option>
+                                    <?php } ?>
                                 </select>
                             <?php } ?>
                         </label>
@@ -141,42 +205,65 @@
     </footer>
 
     <script>
-        // Mostrar imagen del Pokémon seleccionado
-        document.querySelectorAll('select[name^="pokemon"]').forEach(select => {
+        // Mostrar imagen y controlar duplicados
+        document.querySelectorAll('.pokemon-select').forEach(select => {
             select.addEventListener('change', function() {
                 const slot = this.closest('.slot');
-                const imageContainer = slot.querySelector('.pokemon-image');
-                const pokemonName = this.options[this.selectedIndex]?.text.split(' (')[0]?.toLowerCase();
+                const img = slot.querySelector('.pokemon-image img');
+                const selectedOption = this.options[this.selectedIndex];
+                const fotoPath = selectedOption.getAttribute('data-foto');
 
-                if (pokemonName) {
-                    const imagePath = `./assets/images/${pokemonName}.png`; // Ruta generada dinámicamente
-                    imageContainer.innerHTML = `<img src="${imagePath}" alt="${pokemonName}" class="w-20 h-20 mx-auto">`;
+                // Mostrar la imagen solo si hay selección
+                if (fotoPath) {
+                    img.src = fotoPath;
+                    img.classList.remove('hidden'); // Mostrar la imagen
                 } else {
-                    imageContainer.innerHTML = ''; // Limpiar la imagen si no se selecciona un Pokémon
+                    img.src = "";
+                    img.classList.add('hidden'); // Ocultar si no hay selección
                 }
-            });
-        });
 
-        // Validar movimientos duplicados
-        document.querySelectorAll('select[name^="movimientos"]').forEach(select => {
-            select.addEventListener('change', function() {
-                const slot = this.closest('.slot');
-                const allMoves = Array.from(slot.querySelectorAll('select[name^="movimientos"]'));
-                const selectedValues = allMoves.map(moveSelect => moveSelect.value);
+                // Evitar duplicados
+                const allSelects = document.querySelectorAll('.pokemon-select');
+                const selectedValues = Array.from(allSelects).map(s => s.value);
 
-                allMoves.forEach(moveSelect => {
-                    const options = moveSelect.querySelectorAll('option');
+                allSelects.forEach(s => {
+                    const options = s.querySelectorAll('option');
                     options.forEach(option => {
-                        if (option.value && selectedValues.filter(val => val === option.value).length > 1) {
-                            option.disabled = true; // Deshabilitar valores duplicados
-                        } else {
-                            option.disabled = false; // Habilitar si no hay duplicados
-                        }
+                        option.disabled = selectedValues.includes(option.value) && option.value !== s.value;
                     });
                 });
             });
         });
+
+        document.getElementById('team-builder-form').addEventListener('submit', function(event) {
+            const slots = document.querySelectorAll('.slot');
+            let isValid = true;
+            let errorMessage = "";
+
+            slots.forEach((slot, index) => {
+                const pokemonSelect = slot.querySelector('select[name^="pokemon"]');
+                const moveSelects = slot.querySelectorAll('select[name^="movimientos"]');
+
+                if (!pokemonSelect.value) {
+                    isValid = false;
+                    errorMessage += `Falta seleccionar un Pokémon en el slot ${index + 1}.\n`;
+                }
+
+                moveSelects.forEach((moveSelect, moveIndex) => {
+                    if (!moveSelect.value) {
+                        isValid = false;
+                        errorMessage += `Falta seleccionar el movimiento ${moveIndex + 1} para el Pokémon en el slot ${index + 1}.\n`;
+                    }
+                });
+            });
+
+            if (!isValid) {
+                event.preventDefault(); // Prevenir el envío del formulario
+                alert("Corrija estos errores antes de guardar el equipo:\n" + errorMessage);
+            }
+        });
     </script>
+
 
 
     <script>
