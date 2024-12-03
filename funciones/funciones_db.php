@@ -197,8 +197,7 @@ function converTablaPoke($datos){
                 ($valor == "")? $valor = "-": $valor;
                 echo "<td class='border border-[#D33F5A]'>$valor</td>";
             }else{
-                echo "<td class='border border-[#D33F5A]'><img class='max-w-8 mx-auto hover:max-w-28 hover:transition-all' src='.././assets$valor'></td>";
-
+                echo "<td class='border border-[#D33F5A]'><img class='w-8 mx-auto hover:w-36 hover:transition-all hover:duration-500' src='.././assets$valor'></td>";
             }
         }
         echo "</tr>";
