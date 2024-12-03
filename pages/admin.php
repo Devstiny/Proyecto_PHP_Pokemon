@@ -45,7 +45,7 @@
     <!-- Navbar -->
     <header class="bg-primary text-white">
         <div class="container mx-auto px-1 py-1 flex justify-between items-center">
-            <img src="./assets/images/LOGOTIPO.png" alt="" class="drop-shadow-lg w-20">
+            <img src=".././assets/images/LOGOTIPO.png" alt="" class="drop-shadow-lg w-20">
             <!-- Mobile Menu Button -->
             <button id="menu-button" class="md:hidden text-white focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
