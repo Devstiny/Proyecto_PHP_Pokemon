@@ -144,7 +144,7 @@ function cambiarPass()
 function getPokedex()
 {
     global $pdo;
-    $stmt = $pdo->query("SELECT ID, NOMBRE, TIPO1, TIPO2 FROM pokedex");
+    $stmt = $pdo->query("SELECT ID, NOMBRE, TIPO1, TIPO2, FOTO FROM pokedex");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
