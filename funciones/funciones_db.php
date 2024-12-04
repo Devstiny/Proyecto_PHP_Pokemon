@@ -203,3 +203,32 @@ function converTablaPoke($datos){
         echo "</tr>";
     }
 }
+
+
+function agregarVistaEquipos(){
+    echo "<div class='w-full max-w-4xl bg-white shadow-lg rounded-lg p-6 my-2'>
+            <label class='block mb-4'>
+                <span class='text-gray-600'>Nombre del equipo: <!-- introducir consulta para nombre del equipo--></span>
+            </label>
+            <div id='team-slots' class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>";
+                 for ($i = 1; $i <= 6; $i++) { 
+                 echo  "<div class='slot border rounded-lg p-4 bg-gray-50'>
+                        <h2 class='text-lg font-bold text-gray-700'> <!-- nombre del pokemon con consulta--> </h2>
+                            <div class='pokemon-image'>
+                                <img src=' alt='Selecciona un Pokémon' class='w-14 h-10 mx-auto hidden' id='pokemon-img-"; echo $i; echo"'><!-- añadir src desde la base de datos -->
+                            </div>
+                           
+                        
+                    </div>";
+                } 
+           echo "</div>
+            <form action=''>
+                <button type='submit' class='bg-primary text-white px-6 py-3 mt-4 rounded-lg shadow-md hover:bg-red-500'>Editar Equipo</button>
+            </form>
+        </div>";
+}
+
+
+function cargarEquiposUsu(){
+    // consulta para sacar todos los equipos de ese usuario y para cada equipo llamar a agregarVistaEquipos()
+}

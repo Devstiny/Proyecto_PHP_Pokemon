@@ -92,6 +92,10 @@
     <main class="flex flex-col justify-center items-center text-center bg-gray-100 xl:w-screen-xl ">
         <h1 class="text-5xl font-bold text-primary mb-6">Mis equipos</h1>
         
+        <?php
+            agregarVistaEquipos();
+        ?>
+
     </main>
 
     <!-- Footer -->
