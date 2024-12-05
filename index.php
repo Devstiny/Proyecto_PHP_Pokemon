@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokémon Team Builder</title>
+    <link rel="icon" type="image/x-icon" href=".././assets/images/Pokemon-Pokeball-PNG-Images.webp">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="./css/colors.css" />
     <!-- FONTAWESOME -->
