@@ -37,19 +37,24 @@
     <main class="w-screen  overflow-hidden m-auto">
         <!-- Section: Design Block -->
         <?php
+        // Incluye las funciones PHP para la conexión y registro de usuario
         include_once '.././funciones/funciones_db.php';
         conexion();
         global $pdo;
 
+        // Variable para almacenar el mensaje de error
         $errorMessage = '';
 
+        // Verifica si se ha enviado el formulario
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $nombreUsuario = $_POST['nombreusu'];
             $correo = $_POST['correo'];
             $password = $_POST['pass'];
 
+            // Llama a la función registrarUsuario para intentar registrar el nuevo usuario
             $errorMessage = registrarUsuario($nombreUsuario, $correo, $password);
 
+            // Si no hay errores, redirige al login
             if (empty($errorMessage)) {
                 header('Location: ./login.php');
                 exit();

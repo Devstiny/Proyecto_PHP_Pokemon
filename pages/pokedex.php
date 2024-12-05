@@ -14,13 +14,14 @@
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous"
         referrerpolicy="no-referrer" />
-   
+
     <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 
 <body class="bg-gray-100 h-screen flex flex-col justify-between">
     <?php
+    // Incluye las funciones de base de datos y establece la conexión
     include_once '.././funciones/funciones_db.php';
     conexion();
     global $pdo;
@@ -33,7 +34,7 @@
         global $nombre;
         $nombre = $datosUsu['NOMBRE_USUARIO'];
         global $mail;
-        $mail= $datosUsu['MAIL'];
+        $mail = $datosUsu['MAIL'];
     } else {
         header("location: ./pages/login.php");
     }
@@ -56,6 +57,7 @@
                 <a href=".././pages/pokedex.php" class="hover:text-gray-200">Pokedex</a>
                 <a href=".././pages/movimientos.php" class="hover:text-gray-200">Movimientos</a>
                 <a href=".././pages/equipos.php" class="hover:text-gray-200">Mis Equipos</a>
+                <!-- Si el rol del usuario es 'A' (administrador), se muestra el enlace de administración -->
                 <?php
                 if ($rol === "A") { ?>
                     <a href='.././pages/admin.php' class='hover:text-gray-200'>Administración</a>
@@ -90,6 +92,7 @@
     <!-- Main Content -->
     <main class="flex flex-col justify-center items-center text-center bg-gray-100 xl:w-screen-xl ">
         <h1 class="text-5xl font-bold text-primary mb-6">Pokedex</h1>
+        <!-- Tabla que muestra la información de la pokedex -->
         <table class="max-w-7xl border-collapse border border-[#D33F5A] mb-4">
             <tr class="border border-[#D33F5A]">
                 <th class="min-w-28 border border-[#D33F5A]">Nº Pokedex</th>
@@ -98,11 +101,11 @@
                 <th class="min-w-28 border border-[#D33F5A]">Tipo 2</th>
                 <th class="min-w-28 border border-[#D33F5A] ">Foto</th>
             </tr>
-        <?php
+            <?php
             global $pdo;
             $datos = mostrarPokes();
             converTablaPoke($datos);
-        ?>
+            ?>
         </table>
 
     </main>
@@ -112,8 +115,8 @@
         Pokémon Team Builder © 2024. Todos los derechos reservados.
     </footer>
 
+    <!-- Mobile menu toggle -->
     <script>
-        // Mobile menu toggle
         const menuButton = document.getElementById('menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         menuButton.addEventListener('click', () => {
@@ -121,6 +124,7 @@
         });
     </script>
 
+    <!-- Script para cargar los componentes de Flowbite -->
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
 </body>

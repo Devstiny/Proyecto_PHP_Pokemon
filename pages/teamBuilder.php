@@ -28,11 +28,13 @@
     </style>
 
     <?php
+    // Incluir funciones de conexión y manejo de base de datos
     include_once '.././funciones/funciones_db.php';
     conexion();
     global $pdo;
     session_start();
     $token = $_SESSION['token'];
+    //Verificar si el usuario está autenticado a través de la sesión
     if (isset($token)) {
         $datosUsu = nombreUsuario($token);
         global $rol;
@@ -50,6 +52,7 @@
     $pokemons = getPokedex();
     $movimientos = getMovimientos();
 
+    //Verificar y procesar el formulario al recibir datos mediante POST
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Procesar datos del formulario
         $nombreEquipo = $_POST['nombre_equipo'];
@@ -67,7 +70,7 @@
             }
         }
 
-        // Verificar si el equipo ya existe para el usuario
+        // Comprobar si el equipo ya existe para el usuario
         $stmt = $pdo->prepare("SELECT COUNT(*) FROM equipos WHERE NOMBRE_USUARIO = :nombreUsuario AND NOMBRE_EQUIPO = :nombreEquipo");
         $stmt->execute([':nombreUsuario' => $nombre, ':nombreEquipo' => $nombreEquipo]);
         $count = $stmt->fetchColumn();
@@ -75,10 +78,9 @@
         if ($count > 0) {
             echo "<script>alert('Ya tienes un equipo con este nombre. Por favor elige otro nombre.');</script>";
         } else {
-            // El equipo no existe, por lo que ahora insertamos los Pokémon y sus movimientos
+            // Si el equipo no existe, insertar los Pokémon y sus movimientos en la base de datos
             foreach ($pokemonSeleccionados as $index => $idPokemon) {
                 if ($idPokemon) {
-                    // Asegúrate de que los movimientos sean accesibles correctamente
                     $mov1 = $_POST['movimientos'][$index][1] ?? null;  // Movimiento 1
                     $mov2 = $_POST['movimientos'][$index][2] ?? null;  // Movimiento 2
                     $mov3 = $_POST['movimientos'][$index][3] ?? null;  // Movimiento 3
@@ -123,6 +125,7 @@
                 <a href=".././pages/movimientos.php" class="hover:text-gray-200">Movimientos</a>
                 <a href=".././pages/equipos.php" class="hover:text-gray-200">Mis Equipos</a>
                 <?php
+                //Sólo el rol de administrador tiene acceso a esta sección
                 if ($rol === "A") { ?>
                     <a href='.././pages/admin.php' class='hover:text-gray-200'>Administración</a>
                 <?php
@@ -143,6 +146,7 @@
             <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Pokedex</a>
             <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Mis Equipos</a>
             <?php
+            //Sólo el rol de administrador tiene acceso a esta sección
             if ($rol === "A") { ?>
                 <a href='#' class='hover:text-gray-200'>Administración</a>
             <?php

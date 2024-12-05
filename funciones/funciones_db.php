@@ -1,5 +1,10 @@
 <?php
-// conexión
+
+/**
+ * Establece una conexión con la base de datos MySQL usando PDO.
+ *
+ * @return void
+ */
 function conexion()
 {
     global $pdo;
@@ -12,6 +17,12 @@ function conexion()
     }
 }
 
+/**
+ * Inicia sesión validando el nombre de usuario y la contraseña.
+ * Si el inicio de sesión es correcto, genera un token y lo guarda en la sesión.
+ *
+ * @return string Mensaje de error si las credenciales son incorrectas.
+ */
 function inicioSesion()
 {
     global $pdo;
@@ -53,6 +64,12 @@ function inicioSesion()
     return $errorMessage; // Si no hay errores, será una cadena vacía
 }
 
+/**
+ * Obtiene los datos del usuario a partir del token de sesión.
+ *
+ * @param string $token El token de sesión del usuario.
+ * @return array|null Los datos del usuario si se encuentra, de lo contrario, null.
+ */
 function nombreUsuario($token)
 {
     global $pdo;
@@ -67,6 +84,14 @@ function nombreUsuario($token)
     }
 }
 
+/**
+ * Registra un nuevo usuario en la base de datos si no existe ya con el mismo nombre o correo.
+ *
+ * @param string $nombreUsuario Nombre del nuevo usuario.
+ * @param string $correo Correo electrónico del nuevo usuario.
+ * @param string $password Contraseña del nuevo usuario.
+ * @return string Mensaje de error si la inserción falla, vacío si se realiza con éxito.
+ */
 function registrarUsuario($nombreUsuario, $correo, $password)
 {
     global $pdo;
@@ -107,7 +132,11 @@ function registrarUsuario($nombreUsuario, $correo, $password)
 }
 
 
-
+/**
+ * Modifica el nombre de usuario del usuario logueado en la base de datos.
+ *
+ * @return void
+ */
 function cambiarUsu()
 {
     global $pdo;
@@ -118,6 +147,11 @@ function cambiarUsu()
     $stmt->execute();
 }
 
+/**
+ * Actualiza el correo electrónico del usuario logueado en la base de datos.
+ *
+ * @return void
+ */
 function cambiarMail()
 {
     global $pdo;
@@ -128,7 +162,11 @@ function cambiarMail()
     $stmt->execute();
 }
 
-
+/**
+ * Actualiza la contraseña del usuario logueado en la base de datos.
+ *
+ * @return void
+ */
 function cambiarPass()
 {
     global $pdo;
@@ -141,6 +179,11 @@ function cambiarPass()
     $stmt->execute();
 }
 
+/**
+ * Obtiene todos los Pokémon de la pokedex desde la base de datos.
+ *
+ * @return array Lista de Pokémon de la pokedex.
+ */
 function getPokedex()
 {
     global $pdo;
@@ -148,6 +191,11 @@ function getPokedex()
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+/**
+ * Obtiene todos los movimientos disponibles desde la base de datos.
+ *
+ * @return array Lista de movimientos.
+ */
 function getMovimientos()
 {
     global $pdo;
@@ -155,22 +203,34 @@ function getMovimientos()
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-
-function mostrarMoves(){
+/**
+ * Muestra los movimientos de la base de datos en formato de tabla HTML.
+ *
+ * @return void
+ */
+function mostrarMoves()
+{
     global $pdo;
     $consulta = "SELECT * FROM `movimientos`;";
     $stmt = $pdo->prepare($consulta);
     $stmt->execute();
     $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $resultado;
-} 
+}
 
-function converTablaMoves($datos){
-    foreach($datos as $key){
+/**
+ * Convierte los datos de movimientos en filas de una tabla HTML.
+ *
+ * @param array $datos Datos de los movimientos.
+ * @return void
+ */
+function converTablaMoves($datos)
+{
+    foreach ($datos as $key) {
         echo "<tr>";
-        foreach($key as $k => $valor){
-            if($k != "ID"){
-                if($k == 'DESCRIPCION')
+        foreach ($key as $k => $valor) {
+            if ($k != "ID") {
+                if ($k == 'DESCRIPCION')
                     echo "<td class='text-start p-2 border border-[#D33F5A]'>$valor</td>";
                 else
                     echo "<td class='border border-[#D33F5A]'>$valor</td>";
@@ -180,23 +240,36 @@ function converTablaMoves($datos){
     }
 }
 
-function mostrarPokes(){
+/**
+ * Muestra los Pokémon de la base de datos en formato de tabla HTML.
+ *
+ * @return void
+ */
+function mostrarPokes()
+{
     global $pdo;
     $consulta = "SELECT * FROM `pokedex`;";
     $stmt = $pdo->prepare($consulta);
     $stmt->execute();
     $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $resultado;
-} 
+}
 
-function converTablaPoke($datos){
-    foreach($datos as $key){
+/**
+ * Convierte los datos de Pokémon en filas de una tabla HTML.
+ *
+ * @param array $datos Datos de los Pokémon.
+ * @return void
+ */
+function converTablaPoke($datos)
+{
+    foreach ($datos as $key) {
         echo "<tr>";
-        foreach($key as $k => $valor){
-            if($k != "FOTO"){
-                ($valor == "")? $valor = "-": $valor;
+        foreach ($key as $k => $valor) {
+            if ($k != "FOTO") {
+                ($valor == "") ? $valor = "-" : $valor;
                 echo "<td class='border border-[#D33F5A]'>$valor</td>";
-            }else{
+            } else {
                 echo "<td class='border border-[#D33F5A]'><img class='w-8 mx-auto hover:w-36 hover:transition-all hover:duration-500' src='.././assets$valor'></td>";
             }
         }
