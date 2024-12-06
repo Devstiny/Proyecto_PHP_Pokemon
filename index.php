@@ -41,7 +41,7 @@
     <!-- Navbar -->
     <header class="bg-primary text-white">
         <div class="container mx-auto px-1 py-1 flex justify-between items-center">
-            <img src="./assets/images/LOGOTIPO.png" alt="" class="drop-shadow-lg w-20">
+            <a href="#"><img src="./assets/images/LOGOTIPO.png" class="drop-shadow-lg w-20"></a>
             <!-- Mobile Menu Button -->
             <button id="menu-button" class="md:hidden text-white focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -72,12 +72,13 @@
         </div>
         <!-- Mobile Dropdown -->
         <div id="mobile-menu" class="hidden md:hidden bg-primary text-white text-center">
-            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">TeamBuilder</a>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Pokedex</a>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Mis Equipos</a>
+            <a href="./pages/teamBuilder.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">TeamBuilder</a>
+            <a href="./pages/pokedex.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Pokedex</a>
+            <a href="./pages/movimientos.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Movimientos</a>
+            <a href="./pages/equipos.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Mis Equipos</a>
             <?php
             if ($rol === "A") { ?>
-                <a href='#' class='hover:text-gray-200'>Administración</a>
+                <a href='./pages/admin.php' class='hover:text-gray-200'>Administración</a>
             <?php
             } ?>
             <a href="./pages/cuenta.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Mi Cuenta</a>
@@ -93,10 +94,10 @@
             Personaliza tus equipos con los mejores Pokémon, movimientos y estrategias para la victoria.
         </p>
         <div class="flex space-x-4">
-            <a href="#" class="bg-primary text-white px-6 py-3 rounded-lg shadow-md hover:bg-red-500">
+            <a href="./pages/teamBuilder.php" class="bg-primary text-white px-6 py-3 rounded-lg shadow-md hover:bg-red-500">
                 Crear Equipo
             </a>
-            <a href="#" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg shadow-md hover:bg-gray-400">
+            <a href="./pages/equipos.php" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg shadow-md hover:bg-gray-400">
                 Ver Equipos Guardados
             </a>
         </div>

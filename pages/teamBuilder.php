@@ -22,12 +22,6 @@
 
 <body class="bg-gray-100 h-screen flex flex-col justify-between">
 
-    <style>
-        .hidden {
-            display: none;
-        }
-    </style>
-
     <?php
     // Incluir funciones de conexión y manejo de base de datos
     include_once '.././funciones/funciones_db.php';
@@ -55,54 +49,55 @@
 
     //Verificar y procesar el formulario al recibir datos mediante POST
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Procesar datos del formulario
-        $nombreEquipo = $_POST['nombre_equipo'];
-        $pokemonSeleccionados = $_POST['pokemon'];  // Aquí asignamos $_POST['pokemon'] a la variable
+            // Procesar datos del formulario
+            $nombreEquipo = $_POST['nombre_equipo'];
+            $pokemonSeleccionados = $_POST['pokemon'];  // Aquí asignamos $_POST['pokemon'] a la variable
 
-        // Verificar que se seleccionaron los 6 Pokémon
-        if (count(array_filter($pokemonSeleccionados)) !== 6) {
-            die("Debe seleccionar 6 Pokémon.");
-        }
-
-        // Verificar que cada Pokémon tiene 4 movimientos
-        foreach ($_POST['movimientos'] as $movimientos) {
-            if (count(array_filter($movimientos)) !== 4) {
-                die("Cada Pokémon debe tener 4 movimientos seleccionados.");
+            // Verificar que se seleccionaron los 6 Pokémon
+            if (count(array_filter($pokemonSeleccionados)) !== 6) {
+                die("Debe seleccionar 6 Pokémon.");
             }
-        }
 
-        // Comprobar si el equipo ya existe para el usuario
-        $stmt = $pdo->prepare("SELECT COUNT(*) FROM equipos WHERE NOMBRE_USUARIO = :nombreUsuario AND NOMBRE_EQUIPO = :nombreEquipo");
-        $stmt->execute([':nombreUsuario' => $nombre, ':nombreEquipo' => $nombreEquipo]);
-        $count = $stmt->fetchColumn();
-
-        if ($count > 0) {
-            echo "<script>alert('Ya tienes un equipo con este nombre. Por favor elige otro nombre.');</script>";
-        } else {
-            // Si el equipo no existe, insertar los Pokémon y sus movimientos en la base de datos
-            foreach ($pokemonSeleccionados as $index => $idPokemon) {
-                if ($idPokemon) {
-                    $mov1 = $_POST['movimientos'][$index][1] ?? null;  // Movimiento 1
-                    $mov2 = $_POST['movimientos'][$index][2] ?? null;  // Movimiento 2
-                    $mov3 = $_POST['movimientos'][$index][3] ?? null;  // Movimiento 3
-                    $mov4 = $_POST['movimientos'][$index][4] ?? null;  // Movimiento 4
-
-                    // Insertar en la base de datos
-                    $stmt = $pdo->prepare("INSERT INTO equipos (NOMBRE_USUARIO, NOMBRE_EQUIPO, ID_POKEMON, ID_MOVIMIENTO1, ID_MOVIMIENTO2, ID_MOVIMIENTO3, ID_MOVIMIENTO4)
-                VALUES (:nombreUsuario, :nombreEquipo, :idPokemon, :mov1, :mov2, :mov3, :mov4)");
-                    $stmt->execute([
-                        ':nombreUsuario' => $nombre,
-                        ':nombreEquipo' => $nombreEquipo,
-                        ':idPokemon' => $idPokemon,
-                        ':mov1' => $mov1,
-                        ':mov2' => $mov2,
-                        ':mov3' => $mov3,
-                        ':mov4' => $mov4,
-                    ]);
+            // Verificar que cada Pokémon tiene 4 movimientos
+            foreach ($_POST['movimientos'] as $movimientos) {
+                if (count(array_filter($movimientos)) !== 4) {
+                    die("Cada Pokémon debe tener 4 movimientos seleccionados.");
                 }
             }
-            echo "<script>alert('¡Equipo guardado correctamente!');</script>";
-        }
+
+            // Comprobar si el equipo ya existe para el usuario
+            $stmt = $pdo->prepare("SELECT COUNT(*) FROM equipos WHERE NOMBRE_USUARIO = :nombreUsuario AND NOMBRE_EQUIPO = :nombreEquipo");
+            $stmt->execute([':nombreUsuario' => $nombre, ':nombreEquipo' => $nombreEquipo]);
+            $count = $stmt->fetchColumn();
+
+            if ($count > 0) {
+                echo "<script>alert('Ya tienes un equipo con este nombre. Por favor elige otro nombre.');</script>";
+            } else {
+                // Si el equipo no existe, insertar los Pokémon y sus movimientos en la base de datos
+                foreach ($pokemonSeleccionados as $index => $idPokemon) {
+                    if ($idPokemon) {
+                        $mov1 = $_POST['movimientos'][$index][1] ?? null;  // Movimiento 1
+                        $mov2 = $_POST['movimientos'][$index][2] ?? null;  // Movimiento 2
+                        $mov3 = $_POST['movimientos'][$index][3] ?? null;  // Movimiento 3
+                        $mov4 = $_POST['movimientos'][$index][4] ?? null;  // Movimiento 4
+
+                        // Insertar en la base de datos
+                        $stmt = $pdo->prepare("INSERT INTO equipos (NOMBRE_USUARIO, NOMBRE_EQUIPO, ID_POKEMON, ID_MOVIMIENTO1, ID_MOVIMIENTO2, ID_MOVIMIENTO3, ID_MOVIMIENTO4)
+                    VALUES (:nombreUsuario, :nombreEquipo, :idPokemon, :mov1, :mov2, :mov3, :mov4)");
+                        $stmt->execute([
+                            ':nombreUsuario' => $nombre,
+                            ':nombreEquipo' => $nombreEquipo,
+                            ':idPokemon' => $idPokemon,
+                            ':mov1' => $mov1,
+                            ':mov2' => $mov2,
+                            ':mov3' => $mov3,
+                            ':mov4' => $mov4,
+                        ]);
+                    }
+                }
+                echo "<script>alert('¡Equipo guardado correctamente!'); window.location.href = '.././pages/teamBuilder.php';</script>";
+            }
+        
     }
 
     ?>
@@ -111,7 +106,7 @@
     <!-- Navbar -->
     <header class="bg-primary text-white">
         <div class="container mx-auto px-1 py-1 flex justify-between items-center">
-            <img src="./../assets/images/LOGOTIPO.png" alt="" class="drop-shadow-lg w-20">
+        <a href=".././index.php"><img src=".././assets/images/LOGOTIPO.png" class="drop-shadow-lg w-20"></a>
             <!-- Mobile Menu Button -->
             <button id="menu-button" class="md:hidden text-white focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -121,12 +116,11 @@
             <!-- Desktop Menu -->
             <nav class="hidden md:flex space-x-6">
 
-                <a href=".././pages/teamBuilder.php" class="hover:text-gray-200">TeamBuilder</a>
+                <a href="#" class="hover:text-gray-200">TeamBuilder</a>
                 <a href=".././pages/pokedex.php" class="hover:text-gray-200">Pokedex</a>
                 <a href=".././pages/movimientos.php" class="hover:text-gray-200">Movimientos</a>
                 <a href=".././pages/equipos.php" class="hover:text-gray-200">Mis Equipos</a>
                 <?php
-                //Sólo el rol de administrador tiene acceso a esta sección
                 if ($rol === "A") { ?>
                     <a href='.././pages/admin.php' class='hover:text-gray-200'>Administración</a>
                 <?php
@@ -134,8 +128,8 @@
                 <div class="relative">
                     <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="hover:text-gray-200 border-2 rounded-full px-[6px] py-[2px] text-center" type="button"><i class="fa-regular fa-user"></i></button>
                     <div id="dropdown" class="hidden absolute bg-primary text-white border rounded shadow-md mt-5 right-0 z-50 w-48 text-center">
-                        <a href="#" class="block px-8 py-2 hover:bg-red-200 hover:text-black transition-all">Mi Cuenta</a>
-                        <a href="./../funciones/cerrarSesion.php" class="block px-8 py-2 hover:bg-red-200 hover:text-black transition-all">Cerrar Sesión</a>
+                        <a href=".././pages/cuenta.php" class="block px-8 py-2 hover:bg-red-200 hover:text-black transition-all">Mi Cuenta</a>
+                        <a href=".././funciones/cerrarSesion.php" class="block px-8 py-2 hover:bg-red-200 hover:text-black transition-all">Cerrar Sesión</a>
                     </div>
                 </div>
 
@@ -144,28 +138,28 @@
         <!-- Mobile Dropdown -->
         <div id="mobile-menu" class="hidden md:hidden bg-primary text-white text-center">
             <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">TeamBuilder</a>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Pokedex</a>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Mis Equipos</a>
+            <a href=".././pages/pokedex.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Pokedex</a>
+            <a href=".././pages/movimientos.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Movimientos</a>
+            <a href=".././pages/equipos.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Mis Equipos</a>
             <?php
-            //Sólo el rol de administrador tiene acceso a esta sección
             if ($rol === "A") { ?>
-                <a href='#' class='hover:text-gray-200'>Administración</a>
+                <a href='.././pages/admin.php' class='hover:text-gray-200'>Administración</a>
             <?php
             } ?>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Mi Cuenta</a>
-            <a href="./../funciones/cerrarSesion.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Cerrar Sesión</a>
+            <a href=".././pages/cuenta.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Mi Cuenta</a>
+            <a href=".././funciones/cerrarSesion.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Cerrar Sesión</a>
 
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex flex-col justify-center items-center text-center bg-gray-100 xl:w-screen-xl ">
+    <main class="flex flex-col justify-center items-center text-center bg-gray-100 xl:w-screen-xl mb-4">
         <h1 class="text-5xl font-bold text-primary mb-6 py-4">TeamBuilder</h1>
 
         <form id="team-builder-form" method="POST" class="w-full max-w-4xl bg-white shadow-lg rounded-lg p-6">
             <label class="block mb-4">
                 <span class="text-gray-600">Nombre del equipo:</span>
-                <input type="text" name="nombre_equipo" required class="w-full mt-1 px-2 py-1 border rounded" />
+                <input type="text" name="nombre_equipo" required class="w-full mt-1 px-2 py-1 border rounded"/>
             </label>
             <div id="team-slots" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <?php for ($i = 1; $i <= 6; $i++) { ?>

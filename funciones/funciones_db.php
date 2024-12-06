@@ -278,30 +278,114 @@ function converTablaPoke($datos)
 }
 
 
-function agregarVistaEquipos(){
-    echo "<div class='w-full max-w-4xl bg-white shadow-lg rounded-lg p-6 my-2'>
+function agregarVistaEquipos($equipos){
+    $veces = count($equipos) / 6;
+    if($veces > 1){
+        $subarray = array_chunk($equipos, 6);
+    }
+    for($i = 0; $i < $veces; $i++){
+        if(isset($subarray)){
+            $aux = $subarray[$i];
+            $aux1 = $aux[0];
+        }else{
+            $aux = $equipos;
+            $aux1 = $aux[0];
+        }
+        
+        echo "<div class='w-full max-w-4xl bg-white shadow-lg rounded-lg p-6 mb-4'>
             <label class='block mb-4'>
-                <span class='text-gray-600'>Nombre del equipo: <!-- introducir consulta para nombre del equipo--></span>
+                <span class='text-black'>Nombre del equipo: ".  $aux1['NOMBRE_EQUIPO'] ."</span>
             </label>
             <div id='team-slots' class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>";
-                 for ($i = 1; $i <= 6; $i++) { 
+                 foreach( ((isset($subarray))? $subarray[$i] : $equipos) as $equipo){ 
+                    $foto = cargarFotoConsulta($equipo['ID_POKEMON']);
+                    $nom = cargarNombreConsulta($equipo['ID_POKEMON']);
                  echo  "<div class='slot border rounded-lg p-4 bg-gray-50'>
-                        <h2 class='text-lg font-bold text-gray-700'> <!-- nombre del pokemon con consulta--> </h2>
+                        <h2 class='text-lg font-bold text-gray-700'> $nom </h2>
                             <div class='pokemon-image'>
-                                <img src=' alt='Selecciona un Pokémon' class='w-14 h-10 mx-auto hidden' id='pokemon-img-"; echo $i; echo"'><!-- añadir src desde la base de datos -->
+                                <img src='.././assets$foto' alt='Selecciona un Pokémon' class='w-7xl h-10 mx-auto' id='pokemon-img-"; echo $i; echo"'><!-- añadir src desde la base de datos -->
                             </div>
                            
                         
                     </div>";
                 } 
            echo "</div>
-            <form action=''>
-                <button type='submit' class='bg-primary text-white px-6 py-3 mt-4 rounded-lg shadow-md hover:bg-red-500'>Editar Equipo</button>
+            <form action='#' method='post'>
+                <input type='hidden' name='nombre_equipo' value='".$aux1['NOMBRE_EQUIPO']."'>
+                <button type='submit' class='bg-primary text-white px-6 py-3 mt-4 rounded-lg shadow-md hover:bg-red-500'>Eliminar Equipo</button>
             </form>
         </div>";
+    }
 }
 
 
-function cargarEquiposUsu(){
+function cargarEquiposUsu($nombre){
     // consulta para sacar todos los equipos de ese usuario y para cada equipo llamar a agregarVistaEquipos()
+    global $pdo;
+    $consulta = "SELECT NOMBRE_EQUIPO, ID_POKEMON, ID_MOVIMIENTO1, ID_MOVIMIENTO2, ID_MOVIMIENTO3, ID_MOVIMIENTO4 FROM equipos WHERE NOMBRE_USUARIO LIKE :usu";
+    $stmt = $pdo->prepare($consulta);
+    $stmt->bindParam(':usu', $nombre);
+    $stmt->execute();
+    $equipos = $stmt->fetchAll();
+    ($equipos != [])? agregarVistaEquipos($equipos) : sinEquipos();
+    
+}
+
+function sinEquipos(){
+    echo '<p class="text-lg text-gray-700 mb-8 max-w-md">
+            Aún no has creado ningún equipo.
+        </p>
+        <div class="flex space-x-4">
+            <a href=".././pages/teamBuilder.php" class="bg-primary text-white px-6 py-3 rounded-lg shadow-md hover:bg-red-500">
+                Crear Equipo
+            </a>
+        </div>';
+}
+
+function cargarFotoConsulta($id) {
+    global $pdo;
+    $consulta = "SELECT FOTO FROM POKEDEX WHERE ID = :id";
+    $stmt = $pdo->prepare($consulta);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT); 
+    $stmt->execute();
+    $foto = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $foto['FOTO'];
+}
+
+function cargarNombreConsulta($id) {
+    global $pdo;
+    $consulta = "SELECT NOMBRE FROM POKEDEX WHERE ID = :id";
+    $stmt = $pdo->prepare($consulta);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT); 
+    $stmt->execute();
+    $nombre = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $nombre['NOMBRE'];
+}
+
+function eliminarEquipo($nombreEquipo){
+    global $pdo;
+    $consulta = "DELETE FROM equipos WHERE NOMBRE_EQUIPO LIKE :nombre";
+    $stmt = $pdo->prepare($consulta);
+    $stmt->bindParam(':nombre', $nombreEquipo ); 
+    $stmt->execute();
+}
+
+function tablaUsuarios(){
+    global $pdo;
+    $consulta = "SELECT * FROM usuarios WHERE ROL LIKE 'R'";
+    $stmt = $pdo->prepare($consulta);
+    $stmt->execute();
+    $usuarios = $stmt->fetchAll();
+    
+    foreach($usuarios as $usu){
+        echo "<tr>
+                    <td class='border'>".$usu['NOMBRE_USUARIO']."</td>
+                    <td class='border'>".$usu['MAIL']."</td>
+                    <td class='border'>".$usu['ROL']."</td>
+                    <td class='border'> <button>Convertir en Admin</button></td>
+                    <td class='border'> <button>Eliminar</button> </td>
+                </tr>";
+                // añadir iconos para los botones
+    }
+
 }

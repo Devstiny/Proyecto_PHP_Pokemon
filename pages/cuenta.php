@@ -43,7 +43,7 @@
     <!-- Navbar -->
     <header class="bg-primary text-white">
         <div class="container mx-auto px-1 py-1 flex justify-between items-center">
-            <img src=".././assets/images/LOGOTIPO.png" alt="" class="drop-shadow-lg w-20">
+        <a href=".././index.php"><img src=".././assets/images/LOGOTIPO.png" class="drop-shadow-lg w-20"></a>
             <!-- Mobile Menu Button -->
             <button id="menu-button" class="md:hidden text-white focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -66,7 +66,7 @@
                     <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="hover:text-gray-200 border-2 rounded-full px-[6px] py-[2px] text-center" type="button"><i class="fa-regular fa-user"></i></button>
                     <div id="dropdown" class="hidden absolute bg-primary text-white border rounded shadow-md mt-5 right-0 z-50 w-48 text-center">
                         <a href="#" class="block px-8 py-2 hover:bg-red-200 hover:text-black transition-all">Mi Cuenta</a>
-                        <a href="./../funciones/cerrarSesion.php" class="block px-8 py-2 hover:bg-red-200 hover:text-black transition-all">Cerrar Sesión</a>
+                        <a href=".././funciones/cerrarSesion.php" class="block px-8 py-2 hover:bg-red-200 hover:text-black transition-all">Cerrar Sesión</a>
                     </div>
                 </div>
 
@@ -74,16 +74,17 @@
         </div>
         <!-- Mobile Dropdown -->
         <div id="mobile-menu" class="hidden md:hidden bg-primary text-white text-center">
-            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">TeamBuilder</a>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Pokedex</a>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Mis Equipos</a>
+            <a href=".././pages/teamBuilder.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">TeamBuilder</a>
+            <a href=".././pages/pokedex.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Pokedex</a>
+            <a href=".././pages/movimientos.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Movimientos</a>
+            <a href=".././pages/equipos.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Mis Equipos</a>
             <?php
             if ($rol === "A") { ?>
-                <a href='#' class='hover:text-gray-200'>Administración</a>
+                <a href='.././pages/admin.php' class='hover:text-gray-200'>Administración</a>
             <?php
             } ?>
             <a href="#" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Mi Cuenta</a>
-            <a href="./../funciones/cerrarSesion.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Cerrar Sesión</a>
+            <a href=".././funciones/cerrarSesion.php" class="block px-4 py-2 hover:bg-gray-200 hover:text-primary">Cerrar Sesión</a>
 
         </div>
     </header>
@@ -193,15 +194,6 @@
                     </button>
                 </form>
             </div>
-        </div>
-
-        <div class="flex space-x-4  mt-10">
-            <a href="#" class="bg-primary text-white px-6 py-3 rounded-lg shadow-md hover:bg-red-500">
-                Crear Equipo
-            </a>
-            <a href="#" class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg shadow-md hover:bg-gray-400">
-                Ver Equipos Guardados
-            </a>
         </div>
     </main>
 
