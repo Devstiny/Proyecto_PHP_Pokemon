@@ -101,14 +101,14 @@
                     <th class="border border-gray-200 p-4">Nombre</th>
                     <th class="border border-gray-200 p-4">Mail</th>
                     <th class="border border-gray-200 p-4">Rol</th>
-                    <th class="border border-gray-200 p-4">Covertir a Admin</th>
-                    <th class="border border-gray-200 p-4">Eliminar Usuario</th>
+                    <th class="p-4"></th>
+                    <th class="p-4"></th>
                 </tr>
             </thead>
             <tbody>
-                <?php
-                    tablaUsuarios();
-                ?>    
+                    <?php
+                        tablaUsuarios();
+                    ?>  
             </tbody>
         </table>
     </main>

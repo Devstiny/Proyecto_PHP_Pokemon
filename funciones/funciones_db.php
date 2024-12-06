@@ -294,7 +294,13 @@ function agregarVistaEquipos($equipos){
         
         echo "<div class='w-full max-w-4xl bg-white shadow-lg rounded-lg p-6 mb-4'>
             <label class='block mb-4'>
-                <span class='text-black'>Nombre del equipo: ".  $aux1['NOMBRE_EQUIPO'] ."</span>
+                <span class='text-black font-bold'>Nombre del equipo: ".  $aux1['NOMBRE_EQUIPO'] ."</span>
+                <form action='.././funciones/cambiarNombreEquipo.php' method='post' class='flex justify-evenly  mt-4'>
+                    <label class='p-2 w-64 text-end font-semibold' for='nom'>Nuevo Nombre:</label>
+                    <input type='text' name='nom' class='p-2 w-64'>
+                    <input type='hidden' name='nom_act' class='p-2 w-64' value=".$aux1['NOMBRE_EQUIPO'].">
+                    <button class='p-2 rounded-lg bg-primary hover:bg-red-500 text-white w-64'>Actualizar Nombre <i class='fa-solid fa-arrows-rotate px-2'></i></button>
+                </form>
             </label>
             <div id='team-slots' class='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>";
                  foreach( ((isset($subarray))? $subarray[$i] : $equipos) as $equipo){ 
@@ -312,7 +318,7 @@ function agregarVistaEquipos($equipos){
            echo "</div>
             <form action='#' method='post'>
                 <input type='hidden' name='nombre_equipo' value='".$aux1['NOMBRE_EQUIPO']."'>
-                <button type='submit' class='bg-primary text-white px-6 py-3 mt-4 rounded-lg shadow-md hover:bg-red-500'>Eliminar Equipo</button>
+                <button type='submit' class='bg-primary text-white px-6 py-3 mt-4 rounded-lg shadow-md hover:bg-red-500'>Eliminar Equipo<i class='fa-regular fa-trash-can mx-2'></i></button>
             </form>
         </div>";
     }
@@ -372,20 +378,57 @@ function eliminarEquipo($nombreEquipo){
 
 function tablaUsuarios(){
     global $pdo;
-    $consulta = "SELECT * FROM usuarios WHERE ROL LIKE 'R'";
+    $consulta = "SELECT * FROM usuarios WHERE NOMBRE_USUARIO != 'admin'";
     $stmt = $pdo->prepare($consulta);
     $stmt->execute();
     $usuarios = $stmt->fetchAll();
     
     foreach($usuarios as $usu){
         echo "<tr>
-                    <td class='border'>".$usu['NOMBRE_USUARIO']."</td>
-                    <td class='border'>".$usu['MAIL']."</td>
-                    <td class='border'>".$usu['ROL']."</td>
-                    <td class='border'> <button>Convertir en Admin</button></td>
-                    <td class='border'> <button>Eliminar</button> </td>
-                </tr>";
-                // añadir iconos para los botones
+            <td class='border px-4'>".$usu['NOMBRE_USUARIO']."</td>
+            <td class='border px-4'>".$usu['MAIL']."</td>
+            <td class='border px-4'>".$usu['ROL']."</td>
+            <td> 
+            <form action='.././funciones/administrarUsu.php' method='post'>
+                <input type='hidden' name='nom' value='".$usu["NOMBRE_USUARIO"]."'> 
+                <input type='hidden' name='rol' value='".$usu["ROL"]."'> 
+                <button type='submit' name='action' class='bg-primary hover:bg-red-500 p-2 m-2 text-white rounded-lg'> Cambiar Rol <i class='fa-solid fa-a mx-2'></i></button>
+            </form>
+        </td>
+        <td> 
+            <form action='.././funciones/administrarUsu.php' method='post'>
+                <input type='hidden' name='del' value='".$usu["NOMBRE_USUARIO"]."'> 
+                <button type='submit' name='action' class='bg-primary hover:bg-red-500 p-2 m-2 text-white rounded-lg'><i class='fa-regular fa-trash-can mx-2'></i></button> 
+            </form>
+        </td>
+        </tr>";
     }
 
+}
+
+function cambiarRol($nombre, $rol){
+    $rol = ($rol == 'R')? 'A': 'R';
+    global $pdo;
+    $consulta = "UPDATE usuarios SET ROL = :rol WHERE NOMBRE_USUARIO = :nombre";
+    $stmt = $pdo->prepare($consulta);
+    $stmt->bindParam(':nombre', $nombre);
+    $stmt->bindParam(':rol', $rol);
+    $stmt->execute();
+}
+
+function eliminarUsu($nombre){
+    global $pdo;
+    $consulta="DELETE FROM usuarios WHERE NOMBRE_USUARIO = :nombre";
+    $stmt = $pdo->prepare($consulta);
+    $stmt -> bindParam(':nombre', $nombre);
+    $stmt -> execute();
+}
+
+function cambiarNombreEquipo($nomAct, $nomNew){
+    global $pdo;
+    $consulta = "UPDATE equipos SET NOMBRE_EQUIPO = :nomNew WHERE NOMBRE_EQUIPO = :nomAct";
+    $stmt = $pdo -> prepare($consulta);
+    $stmt -> bindParam(':nomAct', $nomAct);
+    $stmt -> bindParam(':nomNew', $nomNew);
+    $stmt -> execute();
 }

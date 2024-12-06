@@ -1,7 +1,7 @@
 <?php
-include_once './../funciones/funciones_db.php';
+include_once '.././funciones/funciones_db.php';
 session_start();
 conexion();
 cambiarMail();
-header('Location: ./../index.php')
+header('Location: .././index.php')
 ?>
