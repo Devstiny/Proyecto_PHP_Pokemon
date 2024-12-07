@@ -101,6 +101,7 @@
                     <th class="border border-gray-200 p-4">Nombre</th>
                     <th class="border border-gray-200 p-4">Mail</th>
                     <th class="border border-gray-200 p-4">Rol</th>
+                    <th class="border border-gray-200 p-4">Equipos</th>
                     <th class="p-4"></th>
                     <th class="p-4"></th>
                 </tr>

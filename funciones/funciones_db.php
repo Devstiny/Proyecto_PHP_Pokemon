@@ -277,7 +277,15 @@ function converTablaPoke($datos)
     }
 }
 
-
+/**
+ * Genera vistas HTML para equipos de Pokémon.
+ *
+ * Divide los equipos en grupos de hasta 6 elementos, los muestra en una tarjeta con opciones
+ * para cambiar el nombre del equipo, visualizar los Pokemons en el equipo y eliminarlos.
+ *
+ * @param array $equipos Array con datos de los equipos.
+ * @return void
+ */
 function agregarVistaEquipos($equipos){
     $veces = count($equipos) / 6;
     if($veces > 1){
@@ -325,8 +333,14 @@ function agregarVistaEquipos($equipos){
 }
 
 
+/**
+ * Carga los equipos de un usuario específico desde la base de datos y los envía a la función
+ * que genera las vistas HTML correspondientes. Si no hay equipos, muestra un mensaje informativo.
+ *
+ * @param string $nombre Nombre del usuario.
+ * @return void
+ */
 function cargarEquiposUsu($nombre){
-    // consulta para sacar todos los equipos de ese usuario y para cada equipo llamar a agregarVistaEquipos()
     global $pdo;
     $consulta = "SELECT NOMBRE_EQUIPO, ID_POKEMON, ID_MOVIMIENTO1, ID_MOVIMIENTO2, ID_MOVIMIENTO3, ID_MOVIMIENTO4 FROM equipos WHERE NOMBRE_USUARIO LIKE :usu";
     $stmt = $pdo->prepare($consulta);
@@ -337,6 +351,13 @@ function cargarEquiposUsu($nombre){
     
 }
 
+
+/**
+ * Muestra un mensaje indicando que no hay equipos creados y proporciona un enlace
+ * para crear un nuevo equipo.
+ *
+ * @return void
+ */
 function sinEquipos(){
     echo '<p class="text-lg text-gray-700 mb-8 max-w-md">
             Aún no has creado ningún equipo.
@@ -348,6 +369,13 @@ function sinEquipos(){
         </div>';
 }
 
+
+/**
+ * Obtiene la foto de un Pokémon desde la base de datos según su ID.
+ *
+ * @param int $id ID del Pokémon en la base de datos.
+ * @return string URL o ruta de la foto del Pokémon.
+ */
 function cargarFotoConsulta($id) {
     global $pdo;
     $consulta = "SELECT FOTO FROM POKEDEX WHERE ID = :id";
@@ -358,6 +386,13 @@ function cargarFotoConsulta($id) {
     return $foto['FOTO'];
 }
 
+
+/**
+ * Obtiene el nombre de un Pokémon desde la base de datos según su ID.
+ *
+ * @param int $id ID del Pokémon en la base de datos.
+ * @return string Nombre del Pokémon.
+ */
 function cargarNombreConsulta($id) {
     global $pdo;
     $consulta = "SELECT NOMBRE FROM POKEDEX WHERE ID = :id";
@@ -368,6 +403,13 @@ function cargarNombreConsulta($id) {
     return $nombre['NOMBRE'];
 }
 
+
+/**
+ * Elimina un equipo de Pokemons de la base de datos según su nombre.
+ *
+ * @param string $nombreEquipo Nombre del equipo que se desea eliminar.
+ * @return void
+ */
 function eliminarEquipo($nombreEquipo){
     global $pdo;
     $consulta = "DELETE FROM equipos WHERE NOMBRE_EQUIPO LIKE :nombre";
@@ -376,9 +418,18 @@ function eliminarEquipo($nombreEquipo){
     $stmt->execute();
 }
 
+
+/**
+ * Genera una tabla HTML con la lista de usuarios (excluyendo al usuario 'admin'),
+ * mostrando su nombre, correo, rol, y la cantidad de equipos asociados.
+ * Además, incluye formularios para cambiar el rol o eliminar a un usuario.
+ *
+ * @global PDO $pdo Conexión a la base de datos mediante PDO.
+ * @return void
+ */
 function tablaUsuarios(){
     global $pdo;
-    $consulta = "SELECT * FROM usuarios WHERE NOMBRE_USUARIO != 'admin'";
+    $consulta = "SELECT u.NOMBRE_USUARIO, u.MAIL, u.ROL, COUNT(DISTINCT e.NOMBRE_EQUIPO) AS TOTAL_EQUIPOS FROM usuarios u LEFT JOIN equipos e  ON u.NOMBRE_USUARIO = e.NOMBRE_USUARIO WHERE u.NOMBRE_USUARIO != 'admin' GROUP BY u.NOMBRE_USUARIO;";
     $stmt = $pdo->prepare($consulta);
     $stmt->execute();
     $usuarios = $stmt->fetchAll();
@@ -388,6 +439,7 @@ function tablaUsuarios(){
             <td class='border px-4'>".$usu['NOMBRE_USUARIO']."</td>
             <td class='border px-4'>".$usu['MAIL']."</td>
             <td class='border px-4'>".$usu['ROL']."</td>
+            <td class='border px-4'>".$usu['TOTAL_EQUIPOS']."</td>
             <td> 
             <form action='.././funciones/administrarUsu.php' method='post'>
                 <input type='hidden' name='nom' value='".$usu["NOMBRE_USUARIO"]."'> 
@@ -406,6 +458,14 @@ function tablaUsuarios(){
 
 }
 
+
+/**
+ * Cambia el rol de un usuario entre 'R' (Registrado) y 'A' (Administrador).
+ *
+ * @param string $nombre Nombre del usuario cuyo rol se desea cambiar.
+ * @param string $rol Rol actual del usuario ('R' o 'A').
+ * @return void
+ */
 function cambiarRol($nombre, $rol){
     $rol = ($rol == 'R')? 'A': 'R';
     global $pdo;
@@ -416,6 +476,13 @@ function cambiarRol($nombre, $rol){
     $stmt->execute();
 }
 
+
+/**
+ * Elimina un usuario de la base de datos según su nombre de usuario.
+ *
+ * @param string $nombre Nombre del usuario que se desea eliminar.
+ * @return void
+ */
 function eliminarUsu($nombre){
     global $pdo;
     $consulta="DELETE FROM usuarios WHERE NOMBRE_USUARIO = :nombre";
@@ -424,6 +491,14 @@ function eliminarUsu($nombre){
     $stmt -> execute();
 }
 
+
+/**
+ * Cambia el nombre de un equipo en la base de datos.
+ *
+ * @param string $nomAct Nombre actual del equipo.
+ * @param string $nomNew Nuevo nombre del equipo.
+ * @return void
+ */
 function cambiarNombreEquipo($nomAct, $nomNew){
     global $pdo;
     $consulta = "UPDATE equipos SET NOMBRE_EQUIPO = :nomNew WHERE NOMBRE_EQUIPO = :nomAct";
