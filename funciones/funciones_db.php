@@ -282,6 +282,8 @@ function converTablaPoke($datos)
  *
  * Divide los equipos en grupos de hasta 6 elementos, los muestra en una tarjeta con opciones
  * para cambiar el nombre del equipo, visualizar los Pokemons en el equipo y eliminarlos.
+ * 
+ * Al nombre del equipo se le sustituyen los espacios por '_' para evitar la perdida de datos, ya que al pasarlo por el metodo post y luego compararlo solo coge los caracteres hasat encontrarse el primer espacio y entonces la comparacion para hacer updaye en la base de datos es erroena, para luego compararlo bien en la pagina cambiarNombreEquipo se vuelven a reemplazar los '_' por espacios.
  *
  * @param array $equipos Array con datos de los equipos.
  * @return void
@@ -306,7 +308,7 @@ function agregarVistaEquipos($equipos){
                 <form action='.././funciones/cambiarNombreEquipo.php' method='post' class='flex justify-evenly  mt-4'>
                     <label class='p-2 w-64 text-end font-semibold' for='nom'>Nuevo Nombre:</label>
                     <input type='text' name='nom' class='p-2 w-64'>
-                    <input type='hidden' name='nom_act' class='p-2 w-64' value=".$aux1['NOMBRE_EQUIPO'].">
+                    <input type='hidden' name='nom_act' class='p-2 w-64' value=". str_replace(' ', '_', $aux1['NOMBRE_EQUIPO'])  .">
                     <button class='p-2 rounded-lg bg-primary hover:bg-red-500 text-white w-64'>Actualizar Nombre <i class='fa-solid fa-arrows-rotate px-2'></i></button>
                 </form>
             </label>
